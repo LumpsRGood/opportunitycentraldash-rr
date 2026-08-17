@@ -44,7 +44,7 @@ import { RedRobinLogo } from './components/RedRobinLogo';
 import { OpportunityGroupLogo } from './components/OpportunityLogo';
 import { DocumentModal, DocumentItem } from './components/DocumentModal';
 
-const APP_VERSION = 'v1.3.0';
+const APP_VERSION = 'v1.0.5';
 
 const DOCUMENTS: DocumentItem[] = [
   {

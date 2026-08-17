@@ -5,7 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: process.env.NODE_ENV === 'production' ? '/redrobindash/' : '/',
+    base: process.env.NODE_ENV === 'production' ? '/opportunitycentraldash-rr/' : '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
