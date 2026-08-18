@@ -37,14 +37,19 @@ import {
   ChevronDown,
   ChevronUp,
   Coins,
-  Wallet
+  Wallet,
+  LogOut,
+  User,
+  Building
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { RedRobinLogo } from './components/RedRobinLogo';
 import { OpportunityGroupLogo } from './components/OpportunityLogo';
 import { DocumentModal, DocumentItem } from './components/DocumentModal';
+import { LoginScreen } from './components/LoginScreen.tsx';
+import { useAuth } from './context/AuthContext.tsx';
 
-const APP_VERSION = 'v1.0.6';
+const APP_VERSION = 'v1.0.8';
 
 const DOCUMENTS: DocumentItem[] = [
   {
@@ -138,6 +143,7 @@ const DOCUMENTS: DocumentItem[] = [
 ];
 
 export default function App() {
+  const { isAuthenticated, user, login, logout, bypassLogin, isLoading, error, isConfigured } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
@@ -217,6 +223,16 @@ export default function App() {
   });
 
   const categories = ['All', 'HR', 'Operations', 'Food Safety', 'Safety'];
+
+  if (!isAuthenticated) {
+    return (
+      <LoginScreen
+        onLoginWithMicrosoft={login}
+        isLoading={isLoading}
+        error={error}
+      />
+    );
+  }
 
   return (
     <>
