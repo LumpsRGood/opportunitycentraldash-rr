@@ -34,33 +34,40 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const initAuth = async () => {
       try {
-        // Check saved session in local/sessionStorage
+        if (isConfigured) {
+          if (!msalInstance) {
+            msalInstance = new PublicClientApplication(msalConfig);
+            await msalInstance.initialize();
+          }
+
+          // 1. Process redirect response from Microsoft login redirect
+          const redirectResponse = await msalInstance.handleRedirectPromise();
+          if (redirectResponse?.account) {
+            handleAccount(redirectResponse.account);
+            setIsLoading(false);
+            return;
+          }
+
+          // 2. Check if already signed in via MSAL cache
+          const currentAccounts = msalInstance.getAllAccounts();
+          if (currentAccounts.length > 0) {
+            handleAccount(currentAccounts[0]);
+            setIsLoading(false);
+            return;
+          }
+        }
+
+        // 3. Fallback: Check local session storage
         const savedSession = sessionStorage.getItem('opportunity_central_user');
         if (savedSession) {
           const parsed = JSON.parse(savedSession);
           setUser(parsed);
           setIsAuthenticated(true);
-          setIsLoading(false);
-          return;
-        }
-
-        if (isConfigured) {
-          msalInstance = new PublicClientApplication(msalConfig);
-          await msalInstance.initialize();
-
-          // Handle redirect callback if applicable
-          const response = await msalInstance.handleRedirectPromise();
-          if (response?.account) {
-            handleAccount(response.account);
-          } else {
-            const currentAccounts = msalInstance.getAllAccounts();
-            if (currentAccounts.length > 0) {
-              handleAccount(currentAccounts[0]);
-            }
-          }
         }
       } catch (err: unknown) {
         console.warn('MSAL Initialization:', err);
+        const errMsg = err instanceof Error ? err.message : 'Authentication initialization error';
+        setError(errMsg);
       } finally {
         setIsLoading(false);
       }
@@ -73,7 +80,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const userProfile: UserProfile = {
       name: account.name || account.username.split('@')[0] || 'Opportunity Leader',
       email: account.username || 'user@opportunityrestaurantgroup.com',
-      role: 'Manager',
+      role: 'Leader',
       store: 'Opportunity Restaurant Group',
     };
     setUser(userProfile);
@@ -91,27 +98,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await msalInstance.initialize();
       }
 
-      // Try popup first for smooth UX without full page reload
-      const response = await msalInstance.loginPopup(loginRequest);
-      if (response.account) {
-        handleAccount(response.account);
-      }
+      // Use full-page redirect for seamless standard Microsoft 365 login (no popup blocking or nested popup issues)
+      await msalInstance.loginRedirect(loginRequest);
     } catch (err: unknown) {
       console.error('MSAL Login error:', err);
       const errMsg = err instanceof Error ? err.message : 'Login failed. Please check your credentials.';
       setError(errMsg);
-    } finally {
       setIsLoading(false);
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     setIsAuthenticated(false);
     setUser(null);
     sessionStorage.removeItem('opportunity_central_user');
     if (msalInstance && isConfigured) {
       try {
-        msalInstance.logoutPopup();
+        await msalInstance.logoutRedirect();
       } catch (e) {
         console.warn('MSAL logout:', e);
       }
