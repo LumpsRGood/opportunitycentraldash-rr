@@ -1746,8 +1746,8 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
-        {/* Test AI Chat Assistant */}
-        <AiAssistant />
+        {/* Test AI Chat Assistant (Commented out for now - can be re-enabled later) */}
+        {/* <AiAssistant /> */}
       </main>
     </>
   );
