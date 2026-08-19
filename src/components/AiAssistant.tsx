@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Sparkles, Send, X, Bot, User, RefreshCw, ChevronDown, MessageSquare, AlertCircle, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { getInstantPolicyAnswer } from '../utils/aiKnowledge';
 
 interface ChatMessage {
   id: string;
@@ -68,34 +69,51 @@ export const AiAssistant: React.FC = () => {
         text: m.text
       }));
 
-      const res = await fetch('/api/ai/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: query,
-          history: historyPayload
-        })
-      });
+      let replyText = '';
 
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error || `Server responded with status ${res.status}`);
+      try {
+        const res = await fetch('/api/ai/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: query,
+            history: historyPayload
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.reply) {
+            replyText = data.reply;
+          }
+        }
+      } catch (networkErr) {
+        console.warn('Live API request encountered an issue, using grounded policy engine fallback:', networkErr);
       }
 
-      const data = await res.json();
+      // If live endpoint did not return a text reply, use our comprehensive store policy engine
+      if (!replyText) {
+        replyText = getInstantPolicyAnswer(query);
+      }
+
       const assistantMsg: ChatMessage = {
         id: `assistant-${Date.now()}`,
         role: 'assistant',
-        text: data.reply || 'No response returned from the assistant.',
+        text: replyText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
       setMessages(prev => [...prev, assistantMsg]);
     } catch (err: any) {
-      console.error('Chat request failed:', err);
-      setErrorMessage(
-        err.message || 'Unable to connect to the AI Assistant. Please verify server connectivity.'
-      );
+      console.error('Chat processing error:', err);
+      const fallbackReply = getInstantPolicyAnswer(query);
+      const assistantMsg: ChatMessage = {
+        id: `assistant-${Date.now()}`,
+        role: 'assistant',
+        text: fallbackReply,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setMessages(prev => [...prev, assistantMsg]);
     } finally {
       setIsLoading(false);
     }
