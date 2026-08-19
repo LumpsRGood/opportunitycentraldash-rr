@@ -2,6 +2,7 @@ import React from 'react';
 import { ExternalLink, FileText, Clock } from 'lucide-react';
 import { motion } from 'motion/react';
 import { DocumentItem } from '../types';
+import { matchDocument } from '../utils/search';
 
 interface DocumentGridProps {
   documents: (DocumentItem & { department?: string })[];
@@ -19,13 +20,7 @@ export const DocumentGrid: React.FC<DocumentGridProps> = ({
   showDepartment = false
 }) => {
   const filtered = documents.filter(doc => {
-    const term = searchTerm.trim().toLowerCase();
-    const matchesSearch = !term || 
-      doc.title.toLowerCase().includes(term) ||
-      doc.description.toLowerCase().includes(term) ||
-      doc.category.toLowerCase().includes(term) ||
-      (doc.department && doc.department.toLowerCase().includes(term)) ||
-      doc.format.toLowerCase().includes(term);
+    const matchesSearch = matchDocument(doc, searchTerm);
 
     const matchesCategory = selectedCategory === 'All' || 
       doc.category === selectedCategory || 

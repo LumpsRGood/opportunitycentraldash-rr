@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   FileText, 
   UserMinus, 
@@ -41,7 +41,8 @@ import {
   LogOut,
   User,
   Building,
-  FolderKanban
+  FolderKanban,
+  ArrowUp
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { RedRobinLogo } from './components/RedRobinLogo';
@@ -50,6 +51,8 @@ import { DocumentItem } from './types.ts';
 import { LoginScreen } from './components/LoginScreen.tsx';
 import { useAuth } from './context/AuthContext.tsx';
 import { DocumentGrid } from './components/DocumentGrid.tsx';
+import { AiAssistant } from './components/AiAssistant.tsx';
+import { matchDocument } from './utils/search.ts';
 import {
   ALL_DOCUMENTS,
   SECURITY_PLATFORM_DOCS,
@@ -69,6 +72,12 @@ export default function App() {
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   const [expandedHowTo, setExpandedHowTo] = useState<string | null>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  const searchResults = useMemo(() => {
+    if (!searchTerm.trim()) return [];
+    return ALL_DOCUMENTS.filter(doc => matchDocument(doc, searchTerm));
+  }, [searchTerm]);
 
   // References for scrollspy and smooth scrolling
   const sectionRefs: Record<string, { current: HTMLElement | null }> = {
@@ -82,12 +91,15 @@ export default function App() {
     hub: useRef<HTMLElement | null>(null),
   };
 
-  // Scrollspy to set active tab as user scrolls
+  // Scrollspy to set active tab as user scrolls and toggle back-to-top button
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 160;
+      const currentScrollY = window.scrollY;
+      setShowBackToTop(currentScrollY > 320);
 
-      if (window.scrollY < 80) {
+      const scrollPosition = currentScrollY + 160;
+
+      if (currentScrollY < 80) {
         setActiveTab('home');
         return;
       }
@@ -104,9 +116,16 @@ export default function App() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const handleTabClick = (sectionId: string) => {
     setActiveTab(sectionId);
@@ -846,8 +865,8 @@ export default function App() {
 
         .oc-toast {
           position: fixed;
-          bottom: 24px;
-          right: 24px;
+          bottom: 84px;
+          right: 28px;
           background: #0f172a;
           color: #ffffff;
           padding: 10px 18px;
@@ -860,6 +879,37 @@ export default function App() {
           align-items: center;
           gap: 8px;
           border: 1px solid #1e293b;
+        }
+
+        .oc-back-to-top {
+          position: fixed;
+          bottom: 28px;
+          right: 28px;
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          padding: 10px 16px;
+          background: #6A0203;
+          color: #ffffff;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 9999px;
+          box-shadow: 0 4px 14px rgba(106, 2, 3, 0.35), 0 2px 6px rgba(0, 0, 0, 0.12);
+          cursor: pointer;
+          z-index: 90;
+          font-family: inherit;
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+        }
+
+        .oc-back-to-top:hover {
+          background: #ED1C24;
+          box-shadow: 0 6px 20px rgba(237, 28, 36, 0.4), 0 3px 8px rgba(0, 0, 0, 0.18);
+        }
+
+        .oc-back-to-top:active {
+          transform: scale(0.96);
         }
 
         @media (max-width: 768px) {
@@ -1024,6 +1074,42 @@ export default function App() {
             )}
           </div>
         </section>
+
+        {/* Instant Search Results Panel (Appears immediately below search bar with zero scrolling required) */}
+        {searchTerm.trim().length > 0 && (
+          <section className="oc-panel mb-8 border-2 border-red-200/90 shadow-md bg-gradient-to-b from-white to-red-50/10">
+            <div className="flex items-center justify-between flex-wrap gap-3 pb-3 mb-4 border-b border-slate-200">
+              <div className="flex items-center gap-2.5">
+                <span className="w-8 h-8 rounded-full flex items-center justify-center bg-[#6A0203] text-white">
+                  <Search size={16} />
+                </span>
+                <div>
+                  <h2 className="text-base font-bold text-slate-800 m-0 flex items-center gap-2">
+                    Search Results for &ldquo;{searchTerm}&rdquo;
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-red-100 text-red-900 font-bold">
+                      {searchResults.length} {searchResults.length === 1 ? 'document' : 'documents'} found
+                    </span>
+                  </h2>
+                  <p className="text-xs text-slate-500 m-0">All matching store policies, forms, and guides appear instantly below.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSearchTerm('')}
+                className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+              >
+                Clear Search
+              </button>
+            </div>
+
+            <DocumentGrid 
+              documents={searchResults} 
+              searchTerm={searchTerm} 
+              showDepartment={true}
+              emptyMessage={`No documents found matching "${searchTerm}". Try checking for related keywords like incident, injury, robbery, claim, form, or cash deposit.`}
+            />
+          </section>
+        )}
 
         {/* 1. Security Platform Panel */}
         <section id="security" ref={sectionRefs.security} className="oc-panel oc-documents mb-8">
@@ -1624,6 +1710,28 @@ export default function App() {
           <div className="text-xs text-slate-400 font-normal">We ❤️ You &bull; But You've Reached The End</div>
         </footer>
 
+        {/* Floating Return to Top Button */}
+        <AnimatePresence>
+          {showBackToTop && (
+            <motion.button
+              type="button"
+              onClick={scrollToTop}
+              initial={{ opacity: 0, y: 20, scale: 0.85 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.85 }}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              aria-label="Return to top of page"
+              title="Return to top"
+              className="oc-back-to-top"
+            >
+              <ArrowUp size={16} className="stroke-[2.5]" />
+              <span>Back to Top</span>
+            </motion.button>
+          )}
+        </AnimatePresence>
+
         {/* Floating Interactive Toast Feedback */}
         <AnimatePresence>
           {copiedEmail && (
@@ -1638,6 +1746,8 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
+        {/* Test AI Chat Assistant */}
+        <AiAssistant />
       </main>
     </>
   );

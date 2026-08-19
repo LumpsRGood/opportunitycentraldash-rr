@@ -11,4 +11,6 @@ export interface DocumentItem {
   bandIcon?: string;
   isPlaceholder?: boolean;
   sharepointUrl?: string;
+  keywords?: string[];
+  department?: string;
 }
