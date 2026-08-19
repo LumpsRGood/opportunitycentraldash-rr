@@ -8,12 +8,30 @@ import { SYSTEM_INSTRUCTION } from './src/utils/aiKnowledge';
 
 dotenv.config();
 
+function setCorsHeaders(res: any) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+}
+
 function aiApiPlugin(): Plugin {
   return {
     name: 'opportunity-ai-chat-api',
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        if (req.url === '/api/ai/chat' && req.method === 'POST') {
+        const rawUrl = req.url || '';
+        const pathname = rawUrl.split('?')[0].replace(/\/+$/, '');
+
+        // Preflight OPTIONS handling
+        if (req.method === 'OPTIONS' && pathname.startsWith('/api/')) {
+          setCorsHeaders(res);
+          res.statusCode = 204;
+          res.end();
+          return;
+        }
+
+        if (pathname === '/api/ai/chat' && req.method === 'POST') {
+          setCorsHeaders(res);
           let body = '';
           req.on('data', chunk => {
             body += chunk;
@@ -90,7 +108,8 @@ function aiApiPlugin(): Plugin {
           return;
         }
 
-        if (req.url === '/api/health' && req.method === 'GET') {
+        if (pathname === '/api/health') {
+          setCorsHeaders(res);
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ status: 'ok', timestamp: new Date().toISOString() }));
