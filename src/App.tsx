@@ -40,124 +40,46 @@ import {
   Wallet,
   LogOut,
   User,
-  Building
+  Building,
+  FolderKanban
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { RedRobinLogo } from './components/RedRobinLogo';
 import { OpportunityGroupLogo } from './components/OpportunityLogo';
-import { DocumentModal, DocumentItem } from './components/DocumentModal';
+import { DocumentItem } from './types.ts';
 import { LoginScreen } from './components/LoginScreen.tsx';
 import { useAuth } from './context/AuthContext.tsx';
+import { DocumentGrid } from './components/DocumentGrid.tsx';
+import {
+  ALL_DOCUMENTS,
+  SECURITY_PLATFORM_DOCS,
+  HUMAN_RESOURCES_DOCS,
+  BDO_ACCOUNTING_DOCS,
+  INSURANCE_INCIDENTS_DOCS,
+  IT_DOCS,
+  HANDBOOK_DOCS
+} from './data/documents.ts';
 
-const APP_VERSION = 'v1.0.8';
-
-const DOCUMENTS: DocumentItem[] = [
-  {
-    id: 'doc-sick-leave',
-    title: 'Employee Sick Leave Request & Policy',
-    description: 'Standard form to request, document, and track team member sick leave according to state and franchisee policies.',
-    category: 'HR',
-    format: 'PDF',
-    icon: FileText,
-    bandClass: 'green',
-    bandIcon: '▣',
-    isPlaceholder: true,
-  },
-  {
-    id: 'doc-termination',
-    title: 'Team Member Offboarding & Separation Form',
-    description: 'Formal checklist and notification template for team member separations, key returns, and final pay offboarding.',
-    category: 'HR',
-    format: 'DOCX',
-    icon: UserMinus,
-    bandClass: 'red',
-    bandIcon: '♙',
-    isPlaceholder: true,
-  },
-  {
-    id: 'doc-warning',
-    title: 'Corrective Action & Warning Notice',
-    description: 'Disciplinary warning notice template and performance improvement documentation for restaurant store managers.',
-    category: 'Operations',
-    format: 'DOCX',
-    icon: AlertTriangle,
-    bandClass: 'orange',
-    bandIcon: '✎',
-    isPlaceholder: true,
-  },
-  {
-    id: 'doc-food-critical',
-    title: 'Red Robin Food Critical Safety Checklist',
-    description: 'Daily shift health verification, burger cook internal temp standards, line checks, and food quality verification sheet.',
-    category: 'Food Safety',
-    format: 'DOCX',
-    icon: ShieldCheck,
-    bandClass: 'forest',
-    bandIcon: '☑',
-    isPlaceholder: true,
-  },
-  {
-    id: 'doc-incident',
-    title: 'Guest & Team Member Incident Report',
-    description: 'Standard emergency reporting form for employee injuries, guest accidents, or dining room property claims.',
-    category: 'Safety',
-    format: 'DOCX',
-    icon: ClipboardSignature,
-    bandClass: 'purple',
-    bandIcon: '♢',
-    isPlaceholder: true,
-  },
-  {
-    id: 'doc-temp-log',
-    title: 'Daily Line & Refrigeration Temperature Log',
-    description: 'Mandatory cook line, fry station, reach-in, walk-in coolers, and cooling logs recorded each shift.',
-    category: 'Food Safety',
-    format: 'PDF',
-    icon: Thermometer,
-    bandClass: 'blue',
-    bandIcon: '♨',
-    isPlaceholder: true,
-  },
-  {
-    id: 'doc-haccp',
-    title: 'Kitchen HACCP & Sanitation Manual',
-    description: 'Guidelines for Hazard Analysis and Critical Control Point compliance, sanitization logs, and food safety standards.',
-    category: 'Food Safety',
-    format: 'PDF',
-    icon: BookOpen,
-    bandClass: 'purple',
-    bandIcon: '✩',
-    isPlaceholder: true,
-  },
-  {
-    id: 'doc-shift-readiness',
-    title: 'Shift Readiness & Station Line Check',
-    description: 'Pre-rush station setup, prep levels, fry oil quality, sanitizer bucket PPM check, and kitchen station readiness.',
-    category: 'Operations',
-    format: 'DOCX',
-    icon: Sparkles,
-    bandClass: 'orange',
-    bandIcon: '⚡',
-    isPlaceholder: true,
-  }
-];
+const APP_VERSION = 'v1.1.0';
 
 export default function App() {
-  const { isAuthenticated, user, login, logout, bypassLogin, isLoading, error, isConfigured } = useAuth();
+  const { isAuthenticated, user, login, loginAsDemo, logout, isLoading, error, isConfigured } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [hubCategory, setHubCategory] = useState('All Departments');
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   const [expandedHowTo, setExpandedHowTo] = useState<string | null>(null);
-  const [selectedDocForModal, setSelectedDocForModal] = useState<DocumentItem | null>(null);
 
   // References for scrollspy and smooth scrolling
-  const sectionRefs = {
+  const sectionRefs: Record<string, { current: HTMLElement | null }> = {
     home: useRef<HTMLElement | null>(null),
-    documents: useRef<HTMLElement | null>(null),
-    facilities: useRef<HTMLElement | null>(null),
-    howDoI: useRef<HTMLElement | null>(null),
-    contacts: useRef<HTMLElement | null>(null),
+    security: useRef<HTMLElement | null>(null),
+    hr: useRef<HTMLElement | null>(null),
+    bdo: useRef<HTMLElement | null>(null),
+    insurance: useRef<HTMLElement | null>(null),
+    it: useRef<HTMLElement | null>(null),
+    handbooks: useRef<HTMLElement | null>(null),
+    hub: useRef<HTMLElement | null>(null),
   };
 
   // Scrollspy to set active tab as user scrolls
@@ -186,7 +108,7 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleTabClick = (sectionId: 'home' | 'documents' | 'facilities' | 'howDoI' | 'contacts') => {
+  const handleTabClick = (sectionId: string) => {
     setActiveTab(sectionId);
     if (sectionId === 'home') {
       window.scrollTo({
@@ -213,21 +135,11 @@ export default function App() {
     });
   };
 
-  // Filter documents based on search search-term & category
-  const filteredDocs = DOCUMENTS.filter(doc => {
-    const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          doc.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          doc.category.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || doc.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
-  const categories = ['All', 'HR', 'Operations', 'Food Safety', 'Safety'];
-
   if (!isAuthenticated) {
     return (
       <LoginScreen
         onLoginWithMicrosoft={login}
+        onPreviewLogin={() => loginAsDemo('Opportunity Leader', 'General Manager')}
         isLoading={isLoading}
         error={error}
       />
@@ -354,17 +266,19 @@ export default function App() {
           max-width: 1400px;
           margin: 0 auto;
           min-height: 48px;
-          padding: 0 40px;
+          padding: 0 32px;
+          gap: 20px;
         }
 
         .oc-nav-logos {
           display: flex;
           align-items: center;
-          gap: 16px;
+          gap: 14px;
           opacity: 0;
-          transform: translateX(12px);
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          transform: translateX(8px);
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
           pointer-events: none;
+          flex-shrink: 0;
         }
 
         .oc-nav-logos.visible {
@@ -376,24 +290,37 @@ export default function App() {
         .oc-tabs {
           display: flex;
           align-items: center;
-          gap: 24px;
+          gap: 6px;
           margin: 0;
           padding: 0;
+          overflow-x: auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          white-space: nowrap;
+          flex: 1;
+        }
+
+        .oc-tabs::-webkit-scrollbar {
+          display: none;
         }
 
         .oc-tabs button {
-          display: flex;
+          display: inline-flex;
           align-items: center;
+          justify-content: center;
+          white-space: nowrap;
           height: 48px;
-          padding: 0 4px;
+          padding: 0 14px;
           border: none;
-          border-bottom: 2px solid transparent;
+          border-bottom: 2.5px solid transparent;
           background: transparent;
           color: #475569;
-          font-size: 14px;
+          font-size: 13.5px;
           font-weight: 500;
+          letter-spacing: -0.01em;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.15s ease;
+          flex-shrink: 0;
         }
 
         .oc-tabs button.active {
@@ -404,34 +331,51 @@ export default function App() {
 
         .oc-tabs button:hover {
           color: #6A0203;
+          background: rgba(237, 28, 36, 0.03);
         }
 
-        .oc-welcome {
+        .oc-search-hero {
+          width: min(1400px, calc(100% - 80px));
+          margin: 22px auto 28px;
+        }
+
+        .oc-search-bar {
           display: flex;
           align-items: center;
-          gap: 16px;
-          margin: 24px auto 20px;
-          width: min(1400px, calc(100% - 80px));
-          padding: 14px 20px;
+          position: relative;
           background: #ffffff;
-          border: 1px solid #fee2e2;
-          border-left: 4px solid #ED1C24;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(106, 2, 3, 0.03);
+          border: 1.5px solid #e2e8f0;
+          border-radius: 12px;
+          padding: 11px 18px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+          transition: all 0.2s ease;
         }
 
-        .oc-info-icon {
-          width: 22px;
-          height: 22px;
-          display: grid;
-          place-items: center;
-          border: 2px solid #ED1C24;
-          border-radius: 50%;
-          color: #ED1C24;
-          font-weight: 800;
-          font-size: 12px;
-          background: #ffffff;
+        .oc-search-bar:focus-within {
+          border-color: #ED1C24;
+          box-shadow: 0 0 0 3.5px rgba(237, 28, 36, 0.08), 0 3px 8px rgba(0,0,0,0.05);
+        }
+
+        .oc-search-icon {
+          color: #64748b;
+          margin-right: 12px;
           flex-shrink: 0;
+        }
+
+        .oc-search-input {
+          flex: 1;
+          border: none;
+          background: transparent;
+          font-size: 14.5px;
+          font-weight: 450;
+          color: #1e293b;
+          outline: none;
+          width: 100%;
+        }
+
+        .oc-search-input::placeholder {
+          color: #94a3b8;
+          font-weight: 400;
         }
 
         .oc-section-heading h2 {
@@ -947,7 +891,7 @@ export default function App() {
             display: none !important;
           }
 
-          .oc-welcome,
+          .oc-search-hero,
           .oc-panel {
             width: calc(100% - 32px);
           }
@@ -1007,28 +951,46 @@ export default function App() {
                 Home
               </button>
               <button 
-                className={activeTab === 'documents' ? 'active' : ''} 
-                onClick={() => handleTabClick('documents')}
+                className={activeTab === 'security' ? 'active' : ''} 
+                onClick={() => handleTabClick('security')}
               >
-                Documents
+                Security Platform
               </button>
               <button 
-                className={activeTab === 'facilities' ? 'active' : ''} 
-                onClick={() => handleTabClick('facilities')}
+                className={activeTab === 'hr' ? 'active' : ''} 
+                onClick={() => handleTabClick('hr')}
               >
-                Facilities
+                Human Resources
               </button>
               <button 
-                className={activeTab === 'howDoI' ? 'active' : ''} 
-                onClick={() => handleTabClick('howDoI')}
+                className={activeTab === 'bdo' ? 'active' : ''} 
+                onClick={() => handleTabClick('bdo')}
               >
-                How Do I?
+                BDO &amp; Accounting
               </button>
               <button 
-                className={activeTab === 'contacts' ? 'active' : ''} 
-                onClick={() => handleTabClick('contacts')}
+                className={activeTab === 'insurance' ? 'active' : ''} 
+                onClick={() => handleTabClick('insurance')}
               >
-                Who to Contact
+                Insurance &amp; Incidents
+              </button>
+              <button 
+                className={activeTab === 'it' ? 'active' : ''} 
+                onClick={() => handleTabClick('it')}
+              >
+                IT
+              </button>
+              <button 
+                className={activeTab === 'handbooks' ? 'active' : ''} 
+                onClick={() => handleTabClick('handbooks')}
+              >
+                Handbooks
+              </button>
+              <button 
+                className={activeTab === 'hub' ? 'active' : ''} 
+                onClick={() => handleTabClick('hub')}
+              >
+                Document Hub
               </button>
             </nav>
             <div className={`oc-nav-logos ${activeTab !== 'home' ? 'visible' : ''}`}>
@@ -1040,155 +1002,197 @@ export default function App() {
           </div>
         </div>
 
-        {/* Welcome Block */}
-        <section id="home" ref={sectionRefs.home} className="oc-welcome">
-          <div className="oc-info-icon" aria-hidden="true">i</div>
-          <p className="text-sm m-0 text-slate-700" style={{ lineHeight: '1.5' }}>
-            <strong style={{ color: '#6A0203', fontWeight: 800 }}>Welcome to Opportunity Central:</strong> Your single point of access for Red Robin operational templates, food safety checklists, and franchisee support directories. Click any document below to view details and access placeholder templates.
-          </p>
+        {/* Streamlined Search Bar Section (Home Anchor) */}
+        <section id="home" ref={sectionRefs.home} className="oc-search-hero">
+          <div className="oc-search-bar">
+            <Search size={19} className="oc-search-icon" />
+            <input 
+              type="text" 
+              placeholder="Search policies, forms, training decks, and spreadsheets..." 
+              className="oc-search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm && (
+              <button 
+                type="button"
+                onClick={() => setSearchTerm('')}
+                className="text-xs text-slate-500 hover:text-slate-700 font-semibold px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-md transition-colors"
+              >
+                Clear
+              </button>
+            )}
+          </div>
         </section>
 
-        {/* Documents Panel */}
-        <section id="documents" ref={sectionRefs.documents} className="oc-panel oc-documents">
+        {/* 1. Security Platform Panel */}
+        <section id="security" ref={sectionRefs.security} className="oc-panel oc-documents mb-8">
           <div className="oc-section-heading">
             <span className="oc-icon" aria-hidden="true">
-              <Layers size={20} />
+              <ShieldCheck size={20} />
             </span>
             <div>
-              <h2>Operational Documents &amp; Forms</h2>
-              <p>Click any document to inspect template details or download placeholder forms.</p>
+              <h2>Security Platform</h2>
+              <p>Official store security protocols, active threat response, robbery procedures, and TABC compliance.</p>
             </div>
           </div>
 
-          {/* Interactive Search & Filter Controls */}
-          <div className="oc-search-filter-bar">
-            <div className="oc-search-wrapper">
-              <Search size={18} className="oc-search-icon" />
-              <input 
-                type="text" 
-                placeholder="Search documents by title or keyword..." 
-                className="oc-search-input"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+          <DocumentGrid 
+            documents={SECURITY_PLATFORM_DOCS} 
+            searchTerm={searchTerm} 
+            emptyMessage="No security documents match your search query."
+          />
+        </section>
+
+        {/* 2. Human Resources Panel */}
+        <section id="hr" ref={sectionRefs.hr} className="oc-panel mb-8">
+          <div className="oc-section-heading">
+            <span className="oc-icon" aria-hidden="true">
+              <Users size={20} />
+            </span>
+            <div>
+              <h2>Human Resources</h2>
+              <p>Workplace policies, sexual harassment training, corrective action forms, termination standards, and workers comp.</p>
             </div>
-            <div className="oc-category-tabs">
-              {categories.map(cat => (
+          </div>
+
+          <DocumentGrid 
+            documents={HUMAN_RESOURCES_DOCS} 
+            searchTerm={searchTerm} 
+            emptyMessage="No HR documents match your search query."
+          />
+        </section>
+
+        {/* 3. BDO & Accounting Panel */}
+        <section id="bdo" ref={sectionRefs.bdo} className="oc-panel mb-8">
+          <div className="oc-section-heading">
+            <span className="oc-icon" aria-hidden="true">
+              <Coins size={20} />
+            </span>
+            <div>
+              <h2>BDO &amp; Accounting</h2>
+              <p>Bank deposit standards, payroll procedures, Ramp corporate card guidelines, GL coding, and mileage tracking.</p>
+            </div>
+          </div>
+
+          <DocumentGrid 
+            documents={BDO_ACCOUNTING_DOCS} 
+            searchTerm={searchTerm} 
+            emptyMessage="No accounting documents match your search query."
+          />
+        </section>
+
+        {/* 4. Insurance & Incidents Panel */}
+        <section id="insurance" ref={sectionRefs.insurance} className="oc-panel mb-8">
+          <div className="oc-section-heading">
+            <span className="oc-icon" aria-hidden="true">
+              <AlertTriangle size={20} />
+            </span>
+            <div>
+              <h2>Insurance &amp; Incidents</h2>
+              <p>Guest injury reporting, vendor incident documentation, workers compensation claims, and insurance forms.</p>
+            </div>
+          </div>
+
+          <DocumentGrid 
+            documents={INSURANCE_INCIDENTS_DOCS} 
+            searchTerm={searchTerm} 
+            emptyMessage="No insurance or incident documents match your search query."
+          />
+        </section>
+
+        {/* 5. IT Panel */}
+        <section id="it" ref={sectionRefs.it} className="oc-panel mb-8">
+          <div className="oc-section-heading">
+            <span className="oc-icon" aria-hidden="true">
+              <Monitor size={20} />
+            </span>
+            <div>
+              <h2>IT</h2>
+              <p>POS hardware troubleshooting, kitchen display systems, network connectivity, and IT helpdesk escalation.</p>
+            </div>
+          </div>
+
+          <DocumentGrid 
+            documents={IT_DOCS} 
+            searchTerm={searchTerm} 
+            emptyMessage="No IT documents match your search query."
+          />
+        </section>
+
+        {/* 6. Handbooks Panel */}
+        <section id="handbooks" ref={sectionRefs.handbooks} className="oc-panel mb-8">
+          <div className="oc-section-heading">
+            <span className="oc-icon" aria-hidden="true">
+              <BookOpen size={20} />
+            </span>
+            <div>
+              <h2>Handbooks</h2>
+              <p>Store employee handbook and team member appearance &amp; uniform standards.</p>
+            </div>
+          </div>
+
+          <DocumentGrid 
+            documents={HANDBOOK_DOCS} 
+            searchTerm={searchTerm} 
+            emptyMessage="No handbook documents match your search query."
+          />
+        </section>
+
+        {/* 7. Master Document Hub Panel (Last Section) */}
+        <section id="hub" ref={sectionRefs.hub} className="oc-panel mb-8">
+          <div className="oc-section-heading">
+            <span className="oc-icon" aria-hidden="true">
+              <FolderKanban size={20} />
+            </span>
+            <div>
+              <h2>Document Hub</h2>
+              <p>Complete company-wide repository of documents across all departments in one unified area. Filter by department or search above.</p>
+            </div>
+          </div>
+
+          {/* Department Quick Filters */}
+          <div className="flex items-center gap-2 mb-5 overflow-x-auto pb-2 scrollbar-none">
+            {[
+              'All Departments',
+              'Security Platform',
+              'Human Resources',
+              'BDO & Accounting',
+              'Insurance & Incidents',
+              'IT',
+              'Handbooks'
+            ].map((dept) => {
+              const isSelected = hubCategory === dept;
+              return (
                 <button
-                  key={cat}
-                  className={`oc-category-btn ${selectedCategory === cat ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(cat)}
+                  key={dept}
+                  type="button"
+                  onClick={() => setHubCategory(dept)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                    isSelected
+                      ? 'bg-[#6A0203] text-white shadow-xs'
+                      : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
                 >
-                  {cat}
+                  {dept}
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
-          {/* Grid of Cards with animations */}
-          <div className="oc-card-grid">
-            <AnimatePresence>
-              {filteredDocs.length > 0 ? (
-                filteredDocs.map((doc, idx) => {
-                  const IconComponent = doc.icon;
-                  return (
-                    <motion.article 
-                      key={doc.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1, transition: { duration: 0.25, delay: idx * 0.03 } }}
-                      exit={{ opacity: 0 }}
-                      className={`oc-doc-card card-${doc.bandClass}`}
-                    >
-                      <div className="oc-card-header-row">
-                        <div className={`oc-card-icon-wrapper ${doc.bandClass}`}>
-                          <IconComponent size={20} className="stroke-[2.5]" />
-                        </div>
-                        <span className="oc-card-format-badge">{doc.format}</span>
-                      </div>
-                      <div className="oc-card-title-container mb-2">
-                        <h3>{doc.title}</h3>
-                      </div>
-                      <p className="oc-card-description">{doc.description}</p>
-                      
-                      <button 
-                        type="button"
-                        className="oc-open-button" 
-                        onClick={() => setSelectedDocForModal(doc)}
-                      >
-                        <FileText size={15} />
-                        View Template
-                      </button>
-                    </motion.article>
-                  );
-                })
-              ) : (
-                <div className="oc-empty-state">
-                  <AlertCircle size={36} className="text-slate-400 mb-2" />
-                  <h4>No documents found</h4>
-                  <p>Try refining your search term or selection.</p>
-                </div>
-              )}
-            </AnimatePresence>
-          </div>
+          <DocumentGrid 
+            documents={ALL_DOCUMENTS} 
+            searchTerm={searchTerm} 
+            selectedCategory={hubCategory === 'All Departments' ? 'All' : hubCategory}
+            showDepartment={true}
+            emptyMessage="No documents in the Document Hub match your search or department filter."
+          />
         </section>
 
-        {/* Facilities Section */}
-        <section id="facilities" ref={sectionRefs.facilities} className="oc-panel">
-          <div className="oc-section-heading">
-            <span className="oc-icon" aria-hidden="true">
-              <Wrench size={20} />
-            </span>
-            <div>
-              <h2>Facilities &amp; System Requests</h2>
-              <p>Submit IT equipment assistance or store maintenance requests directly to support teams.</p>
-            </div>
-          </div>
-
-          <div className="oc-card-grid">
-            {/* IT Request Card */}
-            <article className="oc-doc-card card-purple">
-              <div className="oc-card-header-row">
-                <div className="oc-card-icon-wrapper purple">
-                  <Monitor size={20} className="stroke-[2.5]" />
-                </div>
-                <span className="oc-card-format-badge">SYSTEM</span>
-              </div>
-              <div className="oc-card-title-container mb-2">
-                <h3>IT &amp; POS Request</h3>
-              </div>
-              <p className="oc-card-description">
-                Submit a support ticket for POS terminals, kitchen display monitors, network routers, back office PCs, and receipt printers.
-              </p>
-              <div className="oc-open-button coming-soon">
-                <Sparkles size={14} className="text-amber-400 animate-pulse" />
-                Coming Soon
-              </div>
-            </article>
-
-            {/* Maintenance Request Card */}
-            <article className="oc-doc-card card-orange">
-              <div className="oc-card-header-row">
-                <div className="oc-card-icon-wrapper orange">
-                  <Wrench size={20} className="stroke-[2.5]" />
-                </div>
-                <span className="oc-card-format-badge">SYSTEM</span>
-              </div>
-              <div className="oc-card-title-container mb-2">
-                <h3>Kitchen &amp; Facility Maintenance</h3>
-              </div>
-              <p className="oc-card-description">
-                Report issues with HVAC, exhaust hoods, commercial fryers, flat top grills, walk-in coolers, and plumbing.
-              </p>
-              <div className="oc-open-button coming-soon">
-                <Sparkles size={14} className="text-amber-400 animate-pulse" />
-                Coming Soon
-              </div>
-            </article>
-          </div>
-        </section>
-
-        {/* How Do I? Section */}
-        <section id="howDoI" ref={sectionRefs.howDoI} className="oc-panel">
+        {/* How Do I? & Who to Contact Sections - Hidden / Commented out per request */}
+        {false && (
+          <>
+            <section id="howDoI" className="oc-panel">
           <div className="oc-section-heading">
             <span className="oc-icon" aria-hidden="true">
               <HelpCircle size={20} />
@@ -1611,6 +1615,8 @@ export default function App() {
             </div>
           </div>
         </section>
+      </>
+    )}
 
         {/* Footer */}
         <footer className="oc-footer">
@@ -1632,12 +1638,6 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Interactive Document Template Preview Modal */}
-        <DocumentModal 
-          document={selectedDocForModal} 
-          onClose={() => setSelectedDocForModal(null)} 
-        />
       </main>
     </>
   );

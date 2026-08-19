@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { PublicClientApplication, AccountInfo } from '@azure/msal-browser';
 import { msalConfig, loginRequest, AZURE_CLIENT_ID } from '../authConfig.ts';
 
-interface UserProfile {
+export interface UserProfile {
   name: string;
   email: string;
   role: string;
@@ -13,6 +13,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: UserProfile | null;
   login: () => Promise<void>;
+  loginAsDemo: (customName?: string, customRole?: string) => void;
   logout: () => void;
   isLoading: boolean;
   error: string | null;
@@ -80,7 +81,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const userProfile: UserProfile = {
       name: account.name || account.username.split('@')[0] || 'Opportunity Leader',
       email: account.username || 'user@opportunityrestaurantgroup.com',
-      role: 'Leader',
+      role: 'General Manager',
+      store: 'Opportunity Restaurant Group',
+    };
+    setUser(userProfile);
+    setIsAuthenticated(true);
+    sessionStorage.setItem('opportunity_central_user', JSON.stringify(userProfile));
+  };
+
+  const loginAsDemo = (name = 'Opportunity Leader', role = 'General Manager') => {
+    const userProfile: UserProfile = {
+      name,
+      email: 'leader@opportunityrestaurantgroup.com',
+      role,
       store: 'Opportunity Restaurant Group',
     };
     setUser(userProfile);
@@ -98,7 +111,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await msalInstance.initialize();
       }
 
-      // Use full-page redirect for seamless standard Microsoft 365 login (no popup blocking or nested popup issues)
+      // Use full-page redirect for standard Microsoft 365 login
       await msalInstance.loginRedirect(loginRequest);
     } catch (err: unknown) {
       console.error('MSAL Login error:', err);
@@ -127,6 +140,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAuthenticated,
         user,
         login,
+        loginAsDemo,
         logout,
         isLoading,
         error,

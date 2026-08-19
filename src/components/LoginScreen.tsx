@@ -1,17 +1,19 @@
 import React from 'react';
-import { ArrowRight, AlertCircle } from 'lucide-react';
+import { ArrowRight, AlertCircle, Eye } from 'lucide-react';
 import { OpportunityGroupLogo } from './OpportunityLogo';
 import { RedRobinEmblem } from './RedRobinEmblem';
 import { RedRobinBrandBackdrop } from './RedRobinBrandBackdrop';
 
 interface LoginScreenProps {
   onLoginWithMicrosoft: () => void;
+  onPreviewLogin: () => void;
   isLoading?: boolean;
   error?: string | null;
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({
   onLoginWithMicrosoft,
+  onPreviewLogin,
   isLoading = false,
   error = null,
 }) => {
@@ -30,7 +32,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           <OpportunityGroupLogo className="h-10 w-auto" />
         </div>
 
-        {/* User-Provided Red Robin Logo (Replaces previous text under Opportunity logo) */}
+        {/* User-Provided Red Robin Logo */}
         <div className="flex items-center justify-center px-4 mb-6">
           <RedRobinEmblem className="h-12 w-auto max-w-[200px]" />
         </div>
@@ -62,8 +64,19 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-0.5 transition-transform" />
         </button>
 
+        {/* Direct Studio Preview Access Button */}
+        <button
+          id="preview-portal-btn"
+          type="button"
+          onClick={onPreviewLogin}
+          className="w-full mt-3 flex items-center justify-center gap-2 py-2.5 px-4 bg-red-50 hover:bg-red-100 text-[#ED1C24] font-semibold text-xs rounded-xl transition-all border border-red-200 shadow-sm"
+        >
+          <Eye className="w-3.5 h-3.5" />
+          <span>Enter Opportunity Central (Preview Mode)</span>
+        </button>
+
         <p className="text-[11px] text-gray-400 mt-4 font-medium">
-          Sign in using your authorized company account
+          Authorized Opportunity Restaurant Group Personnel
         </p>
       </div>
     </div>
