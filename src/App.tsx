@@ -82,10 +82,10 @@ export default function App() {
   // References for scrollspy and smooth scrolling
   const sectionRefs: Record<string, { current: HTMLElement | null }> = {
     home: useRef<HTMLElement | null>(null),
-    security: useRef<HTMLElement | null>(null),
     hr: useRef<HTMLElement | null>(null),
-    bdo: useRef<HTMLElement | null>(null),
     insurance: useRef<HTMLElement | null>(null),
+    security: useRef<HTMLElement | null>(null),
+    bdo: useRef<HTMLElement | null>(null),
     it: useRef<HTMLElement | null>(null),
     handbooks: useRef<HTMLElement | null>(null),
     hub: useRef<HTMLElement | null>(null),
@@ -1001,28 +1001,28 @@ export default function App() {
                 Home
               </button>
               <button 
-                className={activeTab === 'security' ? 'active' : ''} 
-                onClick={() => handleTabClick('security')}
-              >
-                Security Platform
-              </button>
-              <button 
                 className={activeTab === 'hr' ? 'active' : ''} 
                 onClick={() => handleTabClick('hr')}
               >
                 Human Resources
               </button>
               <button 
-                className={activeTab === 'bdo' ? 'active' : ''} 
-                onClick={() => handleTabClick('bdo')}
-              >
-                BDO &amp; Accounting
-              </button>
-              <button 
                 className={activeTab === 'insurance' ? 'active' : ''} 
                 onClick={() => handleTabClick('insurance')}
               >
                 Insurance &amp; Incidents
+              </button>
+              <button 
+                className={activeTab === 'security' ? 'active' : ''} 
+                onClick={() => handleTabClick('security')}
+              >
+                Security Platform
+              </button>
+              <button 
+                className={activeTab === 'bdo' ? 'active' : ''} 
+                onClick={() => handleTabClick('bdo')}
+              >
+                BDO &amp; Accounting
               </button>
               <button 
                 className={activeTab === 'it' ? 'active' : ''} 
@@ -1111,26 +1111,7 @@ export default function App() {
           </section>
         )}
 
-        {/* 1. Security Platform Panel */}
-        <section id="security" ref={sectionRefs.security} className="oc-panel oc-documents mb-8">
-          <div className="oc-section-heading">
-            <span className="oc-icon" aria-hidden="true">
-              <ShieldCheck size={20} />
-            </span>
-            <div>
-              <h2>Security Platform</h2>
-              <p>Official store security protocols, active threat response, robbery procedures, and TABC compliance.</p>
-            </div>
-          </div>
-
-          <DocumentGrid 
-            documents={SECURITY_PLATFORM_DOCS} 
-            searchTerm={searchTerm} 
-            emptyMessage="No security documents match your search query."
-          />
-        </section>
-
-        {/* 2. Human Resources Panel */}
+        {/* 1. Human Resources Panel */}
         <section id="hr" ref={sectionRefs.hr} className="oc-panel mb-8">
           <div className="oc-section-heading">
             <span className="oc-icon" aria-hidden="true">
@@ -1149,26 +1130,7 @@ export default function App() {
           />
         </section>
 
-        {/* 3. BDO & Accounting Panel */}
-        <section id="bdo" ref={sectionRefs.bdo} className="oc-panel mb-8">
-          <div className="oc-section-heading">
-            <span className="oc-icon" aria-hidden="true">
-              <Coins size={20} />
-            </span>
-            <div>
-              <h2>BDO &amp; Accounting</h2>
-              <p>Bank deposit standards, payroll procedures, Ramp corporate card guidelines, GL coding, and mileage tracking.</p>
-            </div>
-          </div>
-
-          <DocumentGrid 
-            documents={BDO_ACCOUNTING_DOCS} 
-            searchTerm={searchTerm} 
-            emptyMessage="No accounting documents match your search query."
-          />
-        </section>
-
-        {/* 4. Insurance & Incidents Panel */}
+        {/* 2. Insurance & Incidents Panel */}
         <section id="insurance" ref={sectionRefs.insurance} className="oc-panel mb-8">
           <div className="oc-section-heading">
             <span className="oc-icon" aria-hidden="true">
@@ -1184,6 +1146,44 @@ export default function App() {
             documents={INSURANCE_INCIDENTS_DOCS} 
             searchTerm={searchTerm} 
             emptyMessage="No insurance or incident documents match your search query."
+          />
+        </section>
+
+        {/* 3. Security Platform Panel */}
+        <section id="security" ref={sectionRefs.security} className="oc-panel oc-documents mb-8">
+          <div className="oc-section-heading">
+            <span className="oc-icon" aria-hidden="true">
+              <ShieldCheck size={20} />
+            </span>
+            <div>
+              <h2>Security Platform</h2>
+              <p>Official store security protocols, active threat response, robbery procedures, and TABC compliance.</p>
+            </div>
+          </div>
+
+          <DocumentGrid 
+            documents={SECURITY_PLATFORM_DOCS} 
+            searchTerm={searchTerm} 
+            emptyMessage="No security documents match your search query."
+          />
+        </section>
+
+        {/* 4. BDO & Accounting Panel */}
+        <section id="bdo" ref={sectionRefs.bdo} className="oc-panel mb-8">
+          <div className="oc-section-heading">
+            <span className="oc-icon" aria-hidden="true">
+              <Coins size={20} />
+            </span>
+            <div>
+              <h2>BDO &amp; Accounting</h2>
+              <p>Bank deposit standards, payroll procedures, Ramp corporate card guidelines, GL coding, and mileage tracking.</p>
+            </div>
+          </div>
+
+          <DocumentGrid 
+            documents={BDO_ACCOUNTING_DOCS} 
+            searchTerm={searchTerm} 
+            emptyMessage="No accounting documents match your search query."
           />
         </section>
 
@@ -1241,10 +1241,10 @@ export default function App() {
           <div className="flex items-center gap-2 mb-5 overflow-x-auto pb-2 scrollbar-none">
             {[
               'All Departments',
-              'Security Platform',
               'Human Resources',
-              'BDO & Accounting',
               'Insurance & Incidents',
+              'Security Platform',
+              'BDO & Accounting',
               'IT',
               'Handbooks & Hub'
             ].map((dept) => {
