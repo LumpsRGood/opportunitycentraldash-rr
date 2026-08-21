@@ -47,11 +47,13 @@ export function matchDocument(doc: DocumentItem & { department?: string }, rawQu
 
   // Build searchable text corpus for the document
   const keywordsStr = (doc.keywords || []).join(' ').toLowerCase();
+  const deptsStr = (doc.departments || []).join(' ').toLowerCase();
   const docCorpus = [
     doc.title.toLowerCase(),
     doc.description.toLowerCase(),
     doc.category.toLowerCase(),
     (doc.department || '').toLowerCase(),
+    deptsStr,
     doc.format.toLowerCase(),
     keywordsStr
   ].join(' ');

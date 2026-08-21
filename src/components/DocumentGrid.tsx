@@ -3,6 +3,7 @@ import { ExternalLink, FileText, Clock } from 'lucide-react';
 import { motion } from 'motion/react';
 import { DocumentItem } from '../types';
 import { matchDocument } from '../utils/search';
+import { ensureWebViewerUrl } from '../utils/urlHelper';
 
 interface DocumentGridProps {
   documents: (DocumentItem & { department?: string })[];
@@ -24,7 +25,8 @@ export const DocumentGrid: React.FC<DocumentGridProps> = ({
 
     const matchesCategory = selectedCategory === 'All' || 
       doc.category === selectedCategory || 
-      doc.department === selectedCategory;
+      doc.department === selectedCategory ||
+      (doc.departments && doc.departments.includes(selectedCategory));
 
     return matchesSearch && matchesCategory;
   });
@@ -43,6 +45,9 @@ export const DocumentGrid: React.FC<DocumentGridProps> = ({
       {filtered.map((doc, idx) => {
         const IconComponent = doc.icon;
         const isPlaceholder = !doc.sharepointUrl;
+        const deptList = doc.departments && doc.departments.length > 0 
+          ? doc.departments 
+          : (doc.department ? [doc.department] : []);
 
         return (
           <motion.article 
@@ -56,11 +61,11 @@ export const DocumentGrid: React.FC<DocumentGridProps> = ({
                 <IconComponent size={20} className="stroke-[2.5]" />
               </div>
               <div className="flex items-center gap-1.5 flex-wrap justify-end">
-                {showDepartment && doc.department && (
-                  <span className="text-[10.5px] font-bold tracking-wider uppercase text-red-900 bg-red-50 border border-red-100 px-2 py-0.5 rounded-full">
-                    {doc.department}
+                {showDepartment && deptList.map((dept) => (
+                  <span key={dept} className="text-[10.5px] font-bold tracking-wider uppercase text-red-900 bg-red-50 border border-red-100 px-2 py-0.5 rounded-full">
+                    {dept}
                   </span>
-                )}
+                ))}
                 <span className="text-[10.5px] font-semibold uppercase tracking-wider text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
                   {doc.category}
                 </span>
@@ -77,7 +82,7 @@ export const DocumentGrid: React.FC<DocumentGridProps> = ({
             <div className="mt-auto pt-3">
               {doc.sharepointUrl ? (
                 <a 
-                  href={doc.sharepointUrl}
+                  href={ensureWebViewerUrl(doc.sharepointUrl)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="oc-open-button w-full inline-flex items-center justify-center gap-2 font-medium"

@@ -21,11 +21,17 @@ import {
   Monitor, 
   HeartHandshake,
   BookOpen,
-  ClipboardSignature
+  Contact,
+  Building
 } from 'lucide-react';
+import { ensureWebViewerUrl } from '../utils/urlHelper';
 
-// 1. Security Platform Documents (Alphabetical A-Z)
-export const SECURITY_PLATFORM_DOCS: DocumentItem[] = [
+/**
+ * Master Single-Source-of-Truth Document Repository
+ * Every document is defined exactly once with its associated departments.
+ */
+export const MASTER_DOCUMENTS: DocumentItem[] = [
+  // 1. Active Assailant Response Policy
   {
     id: 'sec-active-assailant',
     title: 'Active Assailant Response Policy',
@@ -34,196 +40,54 @@ export const SECURITY_PLATFORM_DOCS: DocumentItem[] = [
     format: 'DOCX',
     bandClass: 'red',
     icon: ShieldAlert,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/Active_Assailant_Response_Policy.docx?d=w6740e253f0cf42168917c7c07f5e2e47'
+    departments: ['Security Platform'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQAKo44okXhlQqpfbao67WVgARp6xAIIKlddR3AK2fT5wLg')
   },
-  {
-    id: 'sec-bomb-threat',
-    title: 'Bomb Threat Policy & Action Plan',
-    description: 'Threat assessment checklist, caller interrogation guidelines, evacuation triggers, search protocols, and law enforcement escalation.',
-    category: 'Emergency Procedures',
-    format: 'DOCX',
-    bandClass: 'crimson',
-    icon: AlertTriangle,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/Opportunity_Restaurant_Group_Bomb_Threat_Policy.docx?d=wa912abe096364ae2a76a5e0db93bc73b'
-  },
-  {
-    id: 'sec-de-escalation',
-    title: 'De-Escalation Training Presentation',
-    description: 'Interactive presentation covering conflict resolution, non-verbal cues, verbal diffuse tactics, and guest service recovery.',
-    category: 'Training & Development',
-    format: 'PPTX',
-    bandClass: 'purple',
-    icon: GraduationCap,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/De-Escalation_Training_Opportunity_Restaurant_Group.pptx?d=wd85c7491e1f54824b178e92eb351c2ad'
-  },
-  {
-    id: 'sec-opening-closing',
-    title: 'Emergency Opening & Closing Procedures',
-    description: 'Two-person verification rule, perimeter and interior safety checks, alarm management, lighting checks, and secure store lockup standards.',
-    category: 'Operations & Access',
-    format: 'DOCX',
-    bandClass: 'amber',
-    icon: KeyRound,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/Emergency_Opening_Closing_Procedures.docx?d=w7762eab8201a47599e6221a69754375a'
-  },
-  {
-    id: 'sec-evidence-preservation',
-    title: 'Evidence Preservation Process',
-    description: 'Mandatory protocols for securing CCTV footage, register receipts, incident logs, witness contact statements, and physical accident evidence.',
-    category: 'Investigations & Reporting',
-    format: 'DOCX',
-    bandClass: 'amber',
-    icon: Eye,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/Evidence_Preservation_Process.docx?d=wf9ab23c17da74c679c2acc8b8ea8d069'
-  },
-  {
-    id: 'sec-medical-emergency',
-    title: 'Medical Emergency Policy',
-    description: 'Response protocols for sudden illness, guest or employee injuries, first aid guidelines, contacting EMS/911, and emergency scene preservation.',
-    category: 'Emergency Procedures',
-    format: 'DOCX',
-    bandClass: 'crimson',
-    icon: HeartHandshake,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/Medical_Emergency_Policy.docx?d=w856b80f4344a49cd827000aa0ba0e830'
-  },
-  {
-    id: 'sec-security-policy',
-    title: 'Opportunity Restaurant Group Security Policy',
-    description: 'Master organizational security standards, cash management, physical security, keycard access controls, and surveillance management.',
-    category: 'Safety & Compliance',
-    format: 'DOCX',
-    bandClass: 'red',
-    icon: ShieldAlert,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/Opportunity_Restaurant_Group_Security_Policy_1.docx?d=we5683f4b86ae420799de3272ee9f936d'
-  },
-  {
-    id: 'sec-alcohol-policy',
-    title: 'Responsible Alcohol Service Policy (TABC)',
-    description: 'Mandatory alcohol service compliance rules, age verification (21+), checking valid government IDs, recognizing signs of customer intoxication, and refusal protocols.',
-    category: 'Safety & Compliance',
-    format: 'DOCX',
-    bandClass: 'red',
-    icon: Wine,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/Opportunity_Restaurant_Group_Responsible_Alcohol_Service_Policy.docx?d=w63336079242540169a7084ca48aad228'
-  },
-  {
-    id: 'sec-robbery-response',
-    title: 'Restaurant Robbery Response Policy',
-    description: 'Critical safety procedures during and after a robbery incident, non-confrontation protocols, safe operations, and immediate post-incident reporting.',
-    category: 'Emergency Procedures',
-    format: 'DOCX',
-    bandClass: 'orange',
-    icon: Flame,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/Restaurant%20Robbery%20Response%20Policy.docx?d=w1fcf59ffb3b945329add04076ff66931'
-  },
-  {
-    id: 'sec-lockdown',
-    title: 'Store Lockdown Policy',
-    description: 'Circumstances triggering immediate full or shelter-in-place lockdown, entrance fortification, guest communication, and all-clear protocols.',
-    category: 'Emergency Procedures',
-    format: 'DOCX',
-    bandClass: 'orange',
-    icon: DoorClosed,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/SecurityPlatform/Opportunity_Restaurant_Group_Lockdown_Policy.docx?d=w47c83269416d44c29cb7e7ba3e5a9d78'
-  }
-];
 
-// 2. Human Resources Documents (Alphabetical A-Z)
-export const HUMAN_RESOURCES_DOCS: DocumentItem[] = [
-  {
-    id: 'hr-corrective-form',
-    title: 'Employee Corrective Action Form',
-    description: 'Official template for documenting counseling sessions, policy infractions, corrective action milestones, and team member acknowledgements.',
-    category: 'Forms & Templates',
-    format: 'DOCX',
-    bandClass: 'orange',
-    icon: FileCheck,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/HR/Opportunity_Restaurant_Group_Corrective_Action_Form.docx?d=w76b195b8570e4d79818cb7e91ed03304'
-  },
-  {
-    id: 'hr-corrective-policy',
-    title: 'Employee Corrective Action Policy',
-    description: 'Progressive discipline standards, coaching protocols, verbal/written warnings, performance improvement plans, and employee rights.',
-    category: 'Performance & Conduct',
-    format: 'DOCX',
-    bandClass: 'amber',
-    icon: FileText,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/HR/Opportunity_Restaurant_Group_Corrective_Action_Policy.docx?d=w5aa1322829cc483082278b8bb20dd9b0'
-  },
-  {
-    id: 'hr-termination-form',
-    title: 'Employee Termination Form',
-    description: 'Standard checklist and documentation form for processing team member exits, separation reasons, and asset recovery.',
-    category: 'Forms & Templates',
-    format: 'DOCX',
-    bandClass: 'crimson',
-    icon: FileCheck,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/HR/Opportunity_Restaurant_Group_Employee_Termination_Form.docx?d=wf78cd917619f4fdbb28015089f762f23'
-  },
-  {
-    id: 'hr-termination-policy',
-    title: 'Employee Termination Policy',
-    description: 'Standard operating procedure for voluntary and involuntary separations, final paycheck calculation, equipment return, and HR notification.',
-    category: 'Employment Standards',
-    format: 'DOCX',
-    bandClass: 'red',
-    icon: UserX,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/HR/Opportunity_Restaurant_Group_Employee_Termination_Policy_with_Logo.docx?d=w7a053b5fdd0547f988d2ecb34486cb85'
-  },
-  {
-    id: 'hr-harassment-training',
-    title: 'Sexual Harassment Prevention Training',
-    description: 'Comprehensive training module on preventing workplace discrimination, harassment awareness, reporting avenues, and zero-tolerance commitments.',
-    category: 'Training & Compliance',
-    format: 'PPTX',
-    bandClass: 'purple',
-    icon: GraduationCap,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/HR/Opportunity_RG_Sexual_Harassment_Prevention_Training.pptx?d=w76d4096a97dc4f78a362635bbdab847d'
-  },
-  {
-    id: 'hr-timecard-policy',
-    title: 'Timecard Adjustment Policy',
-    description: 'Rules for managing missed punches, overtime authorization, supervisor verification, and payroll compliance documentation.',
-    category: 'Time & Attendance',
-    format: 'DOCX',
-    bandClass: 'blue',
-    icon: Clock,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/HR/Timecard%20adjustment%20Policy.docx?d=w5a58542953cb4185bd2702a5a76b34a8'
-  },
-  {
-    id: 'hr-workers-comp-claim',
-    title: 'Workers Compensation Claim Form',
-    description: 'Official initial incident and medical claim filing document for employee workplace injuries.',
-    category: 'Forms & Templates',
-    format: 'PDF',
-    bandClass: 'crimson',
-    icon: FileCheck,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/HR/Workers%20comp%20form.pdf?web=1'
-  },
-  {
-    id: 'hr-workers-comp-policy',
-    title: 'Workers Compensation Policy',
-    description: 'Team member injury protocols, mandatory 24-hour reporting, designated medical clinic referral, and claims documentation.',
-    category: 'Safety & Benefits',
-    format: 'DOCX',
-    bandClass: 'emerald',
-    icon: FileText,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/HR/Opp%20Restaurant%20Group%20Workers%20Comp%20Policy.docx?d=w49b6a97cdbb44752880600b470d059e0'
-  }
-];
-
-// 3. BDO & Accounting Documents (Alphabetical A-Z)
-export const BDO_ACCOUNTING_DOCS: DocumentItem[] = [
+  // 2. Bank Deposit Process
   {
     id: 'acc-bank-deposit',
-    title: 'Bank Deposit & Safe Drop Process',
+    title: 'Bank Deposit Process',
     description: 'Procedures for daily POS safe drop balancing, dual-custody register verification, deposit slip preparation, and armored transit.',
     category: 'Cash Management',
     format: 'DOCX',
     bandClass: 'emerald',
     icon: Landmark,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Bank%20Deposit%20Process.docx?d=wd800af4537e1470ba1e9262836d5b334'
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQDfbZr3bUMRQIalSUmtrRFiAcNg6XLqMtBhoRglPGXQLrA')
   },
+
+  // 3. Bomb Threat Policy
+  {
+    id: 'sec-bomb-threat',
+    title: 'Bomb Threat Policy',
+    description: 'Threat assessment checklist, caller interrogation guidelines, evacuation triggers, search protocols, and law enforcement escalation.',
+    category: 'Emergency Procedures',
+    format: 'DOCX',
+    bandClass: 'crimson',
+    icon: AlertTriangle,
+    departments: ['Security Platform'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQCsCjYS15V8S59zeY9D-uY1Af6LC-sZXb5cH91DgLpLGOI')
+  },
+
+  // 4. Daily Cash Log (Renamed from Register Cash Reallocation Log)
+  {
+    id: 'acc-cash-log',
+    title: 'Daily Cash Log',
+    description: 'Spreadsheet log for balancing register funds, daily cash drawers, and documenting surplus/deficit cash transfers.',
+    category: 'Cash Management',
+    format: 'XLSX',
+    bandClass: 'teal',
+    icon: FileSpreadsheet,
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:x:/p/gchadrick/IQDXzZ-07JL1RJ0xQCf6xDLSAdenN1wxMdrzJoICSub9pDo')
+  },
+
+  // 5. Daily Deposit Tracking Sheet
   {
     id: 'acc-deposit-tracking',
     title: 'Daily Deposit Tracking Sheet',
@@ -232,8 +96,82 @@ export const BDO_ACCOUNTING_DOCS: DocumentItem[] = [
     format: 'XLSX',
     bandClass: 'emerald',
     icon: FileSpreadsheet,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Deposit_Tracking_Form.xlsx?d=wfff3c8c9cbcc410d9c8eb314f16d5fb8'
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:x:/p/gchadrick/IQAgbxz4E81qSL5qkIlQIk7OAYeTqiUlVS5gj5SOb6QCuJU')
   },
+
+  // 6. De-Escalation Training Presentation
+  {
+    id: 'sec-de-escalation',
+    title: 'De-Escalation Training Presentation',
+    description: 'Interactive presentation covering conflict resolution, non-verbal cues, verbal diffuse tactics, and guest service recovery.',
+    category: 'Training & Development',
+    format: 'PPTX',
+    bandClass: 'purple',
+    icon: GraduationCap,
+    departments: ['Security Platform'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:p:/p/gchadrick/IQCJum4kcbOrQq_8a2-su7rdAXTz1qfO_sdJnwRoZHnLskU')
+  },
+
+  // 7. Divisional Cost Centers
+  {
+    id: 'acc-divisional-cost-centers',
+    title: 'Divisional Cost Centers',
+    description: 'Official master reference spreadsheet mapping store divisions, cost center allocations, and general ledger operational accounting codes.',
+    category: 'Disbursements & AP',
+    format: 'XLSX',
+    bandClass: 'emerald',
+    icon: Building,
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:x:/p/gchadrick/IQAwLnM6F9bMSp453UeexfQLAQJUDV3mLqn6UD-V1J4viDk')
+  },
+
+  // 8. Emergency Opening & Closing Procedures
+  {
+    id: 'sec-opening-closing',
+    title: 'Emergency Opening & Closing Procedures',
+    description: 'Two-person verification rule, perimeter and interior safety checks, alarm management, lighting checks, and secure store lockup standards.',
+    category: 'Operations & Access',
+    format: 'DOCX',
+    bandClass: 'amber',
+    icon: KeyRound,
+    departments: ['Security Platform'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQAi9zhOEJtpTZpjqV52QELzAaxfRXc0LMP9NNwz9HQ2NdE')
+  },
+
+  // 9. Employee Corrective Action Form
+  {
+    id: 'hr-corrective-form',
+    title: 'Employee Corrective Action Form',
+    description: 'Official template for documenting counseling sessions, policy infractions, corrective action milestones, and team member acknowledgements.',
+    category: 'Forms & Templates',
+    format: 'DOCX',
+    bandClass: 'orange',
+    icon: FileCheck,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQB-MOg9AZrlQb_9omGUn6w7AbaKSvjRSQBbWL9PZ3qyOZY')
+  },
+
+  // 10. Employee Corrective Action Policy
+  {
+    id: 'hr-corrective-policy',
+    title: 'Employee Corrective Action Policy',
+    description: 'Progressive discipline standards, coaching protocols, verbal/written warnings, performance improvement plans, and employee rights.',
+    category: 'Performance & Conduct',
+    format: 'DOCX',
+    bandClass: 'amber',
+    icon: FileText,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQDChrMHNgtCTqiUaB9pFVIWAd7Yz1DjcVdjl53gSmBYxTE')
+  },
+
+  // 11. Employee Expense Reimbursement Policy
   {
     id: 'acc-expense-reimbursement',
     title: 'Employee Expense Reimbursement Policy',
@@ -242,8 +180,138 @@ export const BDO_ACCOUNTING_DOCS: DocumentItem[] = [
     format: 'DOCX',
     bandClass: 'amber',
     icon: Receipt,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Opp%20Restaurant%20Group%20Employee%20Expense%20Reimbursment%20Policy.docx?d=w6f6669e07e974383b4a6b9e446eb4516'
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQB0rar9jGCfRYzZ9Fv1-VRwAW3OKl4UyaDh1JskJvEJijQ')
   },
+
+  // 12. Employee Termination Form
+  {
+    id: 'hr-termination-form',
+    title: 'Employee Termination Form',
+    description: 'Standard checklist and documentation form for processing team member exits, separation reasons, and asset recovery.',
+    category: 'Forms & Templates',
+    format: 'DOCX',
+    bandClass: 'crimson',
+    icon: FileCheck,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQBqumYq3NvwQ5T4A_3e6LdJAdKRJZgmFOiIfuTvgopzChU')
+  },
+
+  // 13. Employee Termination Policy
+  {
+    id: 'hr-termination-policy',
+    title: 'Employee Termination Policy',
+    description: 'Standard operating procedure for voluntary and involuntary separations, final paycheck calculation, equipment return, and HR notification.',
+    category: 'Employment Standards',
+    format: 'DOCX',
+    bandClass: 'red',
+    icon: UserX,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQDxJuMODJq0T5Q15SH54D7ZARhPhvYHpMvCwla81xQzpzc')
+  },
+
+  // 14. Evidence Preservation Process (Security Platform & HR)
+  {
+    id: 'doc-evidence-preservation',
+    title: 'Evidence Preservation Process',
+    description: 'Mandatory protocols for securing CCTV footage, register receipts, incident logs, witness contact statements, and physical accident evidence.',
+    category: 'Investigations & Reporting',
+    format: 'DOCX',
+    bandClass: 'amber',
+    icon: Eye,
+    departments: ['Security Platform', 'Human Resources'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQAsOn5fc1whR6JRTPcDDfvuAcE1x5B36VfJSmEIukbETpA')
+  },
+
+  // 15. Guest & Vendor Incident Report Form (Insurance & Incidents & HR)
+  {
+    id: 'doc-guest-incident-form',
+    title: 'Guest & Vendor Incident Report Form',
+    description: 'Mandatory official report form for documenting guest slips, falls, burns, vehicle lot damage, or contractor incidents.',
+    category: 'Incident Protocols',
+    format: 'PDF',
+    bandClass: 'crimson',
+    icon: FileCheck,
+    departments: ['Insurance & Incidents', 'Human Resources'],
+    department: 'Insurance & Incidents',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQBsOycmj7mBT7mOJIwWLv5yAeJznfpcc_aMXGbAXOXZUak')
+  },
+
+  // 16. Guest Incident Management Policy (Insurance & Incidents & HR)
+  {
+    id: 'doc-guest-incident-policy',
+    title: 'Guest Incident Management Policy',
+    description: 'Protocol for managing guest injuries, customer property incidents, claims mitigation, CCTV preservation, and insurance agent reporting.',
+    category: 'Incident Protocols',
+    format: 'DOCX',
+    bandClass: 'red',
+    icon: AlertTriangle,
+    departments: ['Insurance & Incidents', 'Human Resources'],
+    department: 'Insurance & Incidents',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQC8HzAl4pUhQIu9RmbdTI-nAUuopk8mdvxkXDbSnAo-ddE')
+  },
+
+  // 17. Health, Safety, and Security Policy (Renamed from Security Policy)
+  {
+    id: 'sec-security-policy',
+    title: 'Health, Safety, and Security Policy',
+    description: 'Master organizational security standards, cash management, physical security, workplace health & safety, keycard access controls, and surveillance management.',
+    category: 'Safety & Compliance',
+    format: 'DOCX',
+    bandClass: 'red',
+    icon: ShieldAlert,
+    departments: ['Security Platform'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQBLP2jlroYHQpneMnLun5NtATlVIWm3H3k1j2U9nWyN9Ss')
+  },
+
+  // 18. IT Processes and Procedures (Renamed from Opportunity Restaurant Group IT Process)
+  {
+    id: 'it-process',
+    title: 'IT Processes and Procedures',
+    description: 'Comprehensive store technical guide: POS terminal troubleshooting, kitchen display systems (KDS), router restarts, receipt printers, and helpdesk escalation.',
+    category: 'Systems & Hardware',
+    format: 'DOCX',
+    bandClass: 'purple',
+    icon: Monitor,
+    departments: ['IT'],
+    department: 'IT',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQBEX53fRuSpSJ8YERDFVHUnAdOvxiJpbht4VJ8PZ4VTgeI')
+  },
+
+  // 19. Lockdown Policy
+  {
+    id: 'sec-lockdown',
+    title: 'Lockdown Policy',
+    description: 'Circumstances triggering immediate full or shelter-in-place lockdown, entrance fortification, guest communication, and all-clear protocols.',
+    category: 'Emergency Procedures',
+    format: 'DOCX',
+    bandClass: 'orange',
+    icon: DoorClosed,
+    departments: ['Security Platform'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQCxXTlIGDiiQpvfFS4M_3tDATGYAC79Vi5lQW1Mdm98fvA')
+  },
+
+  // 20. Medical Emergency Policy
+  {
+    id: 'sec-medical-emergency',
+    title: 'Medical Emergency Policy',
+    description: 'Response protocols for sudden illness, guest or employee injuries, first aid guidelines, contacting EMS/911, and emergency scene preservation.',
+    category: 'Emergency Procedures',
+    format: 'DOCX',
+    bandClass: 'crimson',
+    icon: HeartHandshake,
+    departments: ['Security Platform'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQD0gGuFSjTNSYJwAKoLoOgwAaGNFdECa35VPVLaTMWsU7M')
+  },
+
+  // 21. Mileage Reimbursement Policy
   {
     id: 'acc-mileage-policy',
     title: 'Mileage Reimbursement Policy',
@@ -252,8 +320,12 @@ export const BDO_ACCOUNTING_DOCS: DocumentItem[] = [
     format: 'DOCX',
     bandClass: 'indigo',
     icon: Car,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Opportunity%20Restaurant%20Group%20Mileage%20%20Policy.docx?d=w34b4686c4ec147d09b9cd6efd2484a50'
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQB0rar9jGCfRYzZ9Fv1-VRwAW3OKl4UyaDh1JskJvEJijQ')
   },
+
+  // 22. Mileage Tracker & Reimbursement Form
   {
     id: 'acc-mileage-tracker',
     title: 'Mileage Tracker & Reimbursement Form',
@@ -262,130 +334,26 @@ export const BDO_ACCOUNTING_DOCS: DocumentItem[] = [
     format: 'XLSX',
     bandClass: 'emerald',
     icon: FileSpreadsheet,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Mileage%20tracker-Reimbursement%20form.xlsx?d=wa889bbfa25db4d60baea3dc30ac0ada7'
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:x:/p/gchadrick/IQBDdHRrn0L6RIXiWKbiyHxGAZP7BPfvXaK_GXqHqV5nvD0')
   },
+
+  // 23. Opportunity Restaurant Group Contacts
   {
-    id: 'acc-paid-out',
-    title: 'Paid Out Policy & Accounting Rules',
-    description: 'Guidelines for store petty cash disbursements, emergency supplies pre-approval, itemized receipt filing, and POS ledger posting.',
-    category: 'Disbursements & AP',
-    format: 'DOCX',
-    bandClass: 'red',
-    icon: Receipt,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Paid%20Out%20Policy.docx?d=wf986b1ed99434c12866ac237f94bc373'
-  },
-  {
-    id: 'acc-payroll-guide',
-    title: 'Payroll Processing Policy & Guide',
-    description: 'Bi-weekly payroll schedule, tip credit handling, manager sign-off checklists, and submission cut-offs to BDO Accounting.',
-    category: 'Payroll & Compensation',
-    format: 'DOCX',
-    bandClass: 'purple',
-    icon: Landmark,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Payroll%20Process.docx?d=wa322d29554e84142a758129f0adb4fc7'
-  },
-  {
-    id: 'acc-ramp-card-policy',
-    title: 'Ramp Corporate Card Policy',
-    description: 'Authorized cardholder rules, eligible operational expenditures, monthly receipt upload deadlines, and card security.',
-    category: 'Corporate Cards',
+    id: 'hb-leadership-contacts',
+    title: 'Opportunity Restaurant Group Contacts',
+    description: 'Master organization directory of executive leadership, area directors, HR, payroll, accounting, and emergency restaurant store contacts.',
+    category: 'Store Contacts',
     format: 'DOCX',
     bandClass: 'blue',
-    icon: CreditCard,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Ramp_Card_Policy.docx?d=wb93ae5756f8144bc8fe7aae7e58991fe'
+    icon: Contact,
+    departments: ['Handbooks & Hub'],
+    department: 'Handbooks & Hub',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQAJpoNcv7pgQJKHUFzNouW6AdgWrjrr8vBor9Vkb6oc8MA')
   },
-  {
-    id: 'acc-ramp-gl-coding',
-    title: 'RAMP GL Chart of Accounts Coding',
-    description: 'Reference lookup table for classifying general ledger codes and department allocations for Ramp expense reports.',
-    category: 'Corporate Cards',
-    format: 'CSV',
-    bandClass: 'teal',
-    icon: FileSpreadsheet,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/RAMPCODING.csv?d=w4d5b26651e1141b39a02bb758ddc6907'
-  },
-  {
-    id: 'acc-cash-log',
-    title: 'Register Cash Reallocation Log',
-    description: 'Spreadsheet log for balancing register funds and documenting surplus/deficit cash transfers across sister store locations.',
-    category: 'Cash Management',
-    format: 'ODS',
-    bandClass: 'teal',
-    icon: FileSpreadsheet,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Cash%20Log.ods?d=w32a801b370f9410ab7ea52ca730c72ae'
-  },
-  {
-    id: 'acc-vendor-setup',
-    title: 'Vendor Setup Policy & W-9 Requirements',
-    description: 'Process for onboarding new restaurant suppliers, W-9 and Certificate of Insurance verification, and AP approval.',
-    category: 'Disbursements & AP',
-    format: 'DOCX',
-    bandClass: 'orange',
-    icon: Users,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/BDOAccounting/Opp%20Restaurant%20Group%20Vendor%20Setup%20Policy.docx?d=w324b504436d44891a28777dbece475ec'
-  }
-];
 
-// 4. Insurance & Incidents Documents (Alphabetical A-Z)
-export const INSURANCE_INCIDENTS_DOCS: DocumentItem[] = [
-  {
-    id: 'inc-guest-incident-form',
-    title: 'Guest & Vendor Incident Report Form',
-    description: 'Mandatory official report form for documenting guest slips, falls, burns, vehicle lot damage, or contractor incidents.',
-    category: 'Incident Protocols',
-    format: 'PDF',
-    bandClass: 'crimson',
-    icon: FileCheck,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/InsuranceAndIncidents/Guest-VendorIncident%20Report%20(1).pdf?web=1'
-  },
-  {
-    id: 'inc-guest-incident-policy',
-    title: 'Guest Incident Management Policy',
-    description: 'Protocol for managing guest injuries, customer property incidents, claims mitigation, CCTV preservation, and insurance agent reporting.',
-    category: 'Incident Protocols',
-    format: 'DOCX',
-    bandClass: 'red',
-    icon: AlertTriangle,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/InsuranceAndIncidents/Opp%20Restaurant%20Group%20Guest%20Incident%20Policy.docx?d=w4daeae96c1ec4e79aba1bd275802c71a'
-  },
-  {
-    id: 'inc-workers-comp-form',
-    title: 'Workers Comp Employee Claim Form',
-    description: 'First Report of Injury documentation packet for medical care providers and insurance adjusters.',
-    category: 'Workplace Safety',
-    format: 'PDF',
-    bandClass: 'crimson',
-    icon: FileCheck,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/InsuranceAndIncidents/Workers%20comp%20form.pdf?web=1'
-  },
-  {
-    id: 'inc-workers-comp-policy',
-    title: 'Workers Compensation Incident Policy',
-    description: 'Employer duty of care, Select First Insurance guidelines, emergency medical authorization, and OSHA compliance reporting.',
-    category: 'Workplace Safety',
-    format: 'DOCX',
-    bandClass: 'orange',
-    icon: FileText,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/InsuranceAndIncidents/Opp%20Restaurant%20Group%20Workers%20Comp%20Policy.docx?d=w46acef543a7547149bc6530bf91ab81d'
-  }
-];
-
-// 5. IT Documents (Alphabetical A-Z)
-export const IT_DOCS: DocumentItem[] = [
-  {
-    id: 'it-process',
-    title: 'Opportunity Restaurant Group IT Process',
-    description: 'Comprehensive store technical guide: POS terminal troubleshooting, kitchen display systems (KDS), router restarts, receipt printers, and helpdesk escalation.',
-    category: 'Systems & Hardware',
-    format: 'DOCX',
-    bandClass: 'purple',
-    icon: Monitor,
-    sharepointUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/IT/Opportunity_Restaurant_Group_IT_Process.docx?d=wdf9d5f44e44648a99f181110c5547527'
-  }
-];
-
-// 6. Handbooks - Placeholders for upcoming store documentation (Alphabetical A-Z)
-export const HANDBOOK_DOCS: DocumentItem[] = [
+  // 24. Opportunity Restaurant Group Employee Handbook
   {
     id: 'hb-master-handbook',
     title: 'Opportunity Restaurant Group Employee Handbook',
@@ -394,8 +362,110 @@ export const HANDBOOK_DOCS: DocumentItem[] = [
     format: 'DOCX',
     bandClass: 'purple',
     icon: BookOpen,
-    sharepointUrl: undefined // Placeholder as requested
+    departments: ['Handbooks & Hub'],
+    department: 'Handbooks & Hub',
+    sharepointUrl: undefined
   },
+
+  // 25. Paid Out Policy
+  {
+    id: 'acc-paid-out',
+    title: 'Paid Out Policy',
+    description: 'Official rules for store petty cash disbursements, emergency supplies pre-approval, itemized receipt filing, and POS ledger posting.',
+    category: 'Disbursements & AP',
+    format: 'DOCX',
+    bandClass: 'red',
+    icon: Receipt,
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQD2YGQoNPtZRrO4ZpM2bYNPAY8lhMJy2eLLUF7EKZ3zPHk')
+  },
+
+  // 26. Payroll Processing Policy & Guide
+  {
+    id: 'acc-payroll-guide',
+    title: 'Payroll Processing Policy & Guide',
+    description: 'Bi-weekly payroll schedule, tip credit handling, manager sign-off checklists, and submission cut-offs to BDO Accounting.',
+    category: 'Payroll & Compensation',
+    format: 'DOCX',
+    bandClass: 'purple',
+    icon: Landmark,
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQCHabQfM01RRLFH_lnOkrSpARZVVVfAlsvBRM8pGPKZUjk')
+  },
+
+  // 27. Ramp Card Policy
+  {
+    id: 'acc-ramp-card-policy',
+    title: 'Ramp Card Policy',
+    description: 'Authorized cardholder rules, eligible operational expenditures, monthly receipt upload deadlines, and card security.',
+    category: 'Corporate Cards',
+    format: 'DOCX',
+    bandClass: 'blue',
+    icon: CreditCard,
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQDtS5U-nf5SQKd77jQUvaH4AeFO62QGhb-M6GYYa7uzywA')
+  },
+
+  // 28. Ramp Ledger Coding (Renamed from RAMP GL Chart of Accounts Coding)
+  {
+    id: 'acc-ramp-gl-coding',
+    title: 'Ramp Ledger Coding',
+    description: 'Reference lookup spreadsheet for classifying general ledger codes, store divisions, and department allocations for Ramp expense reports.',
+    category: 'Corporate Cards',
+    format: 'XLSX',
+    bandClass: 'teal',
+    icon: FileSpreadsheet,
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:x:/p/gchadrick/IQBfe6bWPNeOQYhY0XpgcA5LAQnxngA8uWi6-ybJRhwAo2Q')
+  },
+
+  // 29. Responsible Alcohol Service Policy (TABC)
+  {
+    id: 'sec-alcohol-policy',
+    title: 'Responsible Alcohol Service Policy (TABC)',
+    description: 'Mandatory alcohol service compliance rules, age verification (21+), checking valid government IDs, recognizing signs of customer intoxication, and refusal protocols.',
+    category: 'Safety & Compliance',
+    format: 'DOCX',
+    bandClass: 'red',
+    icon: Wine,
+    departments: ['Security Platform'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQBDa0kHC82KR5TULsdBkT7ZAeTIEq5bIe9y-ybuTQpw1NQ')
+  },
+
+  // 30. Restaurant Robbery Response Policy
+  {
+    id: 'sec-robbery-response',
+    title: 'Restaurant Robbery Response Policy',
+    description: 'Critical safety procedures during and after a robbery incident, non-confrontation protocols, safe operations, and immediate post-incident reporting.',
+    category: 'Emergency Procedures',
+    format: 'DOCX',
+    bandClass: 'orange',
+    icon: Flame,
+    departments: ['Security Platform'],
+    department: 'Security Platform',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQD_Wc8fubMyRZrdBAdv9mkxASklYuW65QBwfTOn8J8_3ek')
+  },
+
+  // 31. Sexual Harassment Prevention Training
+  {
+    id: 'hr-harassment-training',
+    title: 'Sexual Harassment Prevention Training',
+    description: 'Comprehensive training module on preventing workplace discrimination, harassment awareness, reporting avenues, and zero-tolerance commitments.',
+    category: 'Training & Compliance',
+    format: 'PPTX',
+    bandClass: 'purple',
+    icon: GraduationCap,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:p:/p/gchadrick/IQA7PN7yuiajSo5MK3TbZJo9AV8iGofWCZGsXxoM0aF6Ijg')
+  },
+
+  // 32. Team Member Standards & Appearance Policy
   {
     id: 'hb-appearance-standards',
     title: 'Team Member Standards & Appearance Policy',
@@ -404,16 +474,93 @@ export const HANDBOOK_DOCS: DocumentItem[] = [
     format: 'DOCX',
     bandClass: 'orange',
     icon: FileText,
-    sharepointUrl: undefined // Placeholder as requested
+    departments: ['Handbooks & Hub'],
+    department: 'Handbooks & Hub',
+    sharepointUrl: undefined
+  },
+
+  // 33. Timecard Adjustment Policy
+  {
+    id: 'hr-timecard-policy',
+    title: 'Timecard Adjustment Policy',
+    description: 'Rules for managing missed punches, overtime authorization, supervisor verification, and payroll compliance documentation.',
+    category: 'Time & Attendance',
+    format: 'DOCX',
+    bandClass: 'blue',
+    icon: Clock,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQAaJXOCcYaKS4L9BCUUJS82AfLFpP4GmhK8RvYryb7lNfM')
+  },
+
+  // 34. Vendor Setup Policy (Renamed from Vendor Setup Policy & W-9 Requirements)
+  {
+    id: 'acc-vendor-setup',
+    title: 'Vendor Setup Policy',
+    description: 'Process for onboarding new restaurant suppliers, W-9 and Certificate of Insurance verification, and AP approval.',
+    category: 'Disbursements & AP',
+    format: 'DOCX',
+    bandClass: 'orange',
+    icon: Users,
+    departments: ['BDO & Accounting'],
+    department: 'BDO & Accounting',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQBkWdzMkVuzSpbxT3vK8vg2ARE5pBsclgLQaYPtYk0g3UQ')
+  },
+
+  // 35. Workers Comp Policy (Renamed from Opportunity Restaurant Group Workers Comp Policy)
+  {
+    id: 'doc-workers-comp-policy',
+    title: 'Workers Comp Policy',
+    description: 'Team member injury protocols, mandatory 24-hour reporting, designated medical clinic referral, and claims documentation.',
+    category: 'Safety & Benefits',
+    format: 'DOCX',
+    bandClass: 'emerald',
+    icon: FileText,
+    departments: ['Human Resources', 'Insurance & Incidents'],
+    department: 'Human Resources',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQDOzpMwfGAQSYQB3UyYRFAyASuPYhd62-VXhq-CCHG7V8c')
+  },
+
+  // 36. Workers Compensation Claim Form (HR & Insurance)
+  {
+    id: 'doc-workers-comp-claim',
+    title: 'Workers Compensation Claim Form',
+    description: 'Official initial incident and medical claim filing document for employee workplace injuries.',
+    category: 'Forms & Templates',
+    format: 'PDF',
+    bandClass: 'crimson',
+    icon: FileCheck,
+    departments: ['Human Resources', 'Insurance & Incidents'],
+    department: 'Human Resources',
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDaDaKkqJjuSYqVmys0II22AbRi63iLLx38YhKnXiefLpE')
   }
 ];
 
-// 7. Master Document Hub Collection (All 36 documents across all departments, sorted alphabetically A-Z)
-export const ALL_DOCUMENTS: (DocumentItem & { department: string })[] = [
-  ...SECURITY_PLATFORM_DOCS.map(d => ({ ...d, department: 'Security Platform' })),
-  ...HUMAN_RESOURCES_DOCS.map(d => ({ ...d, department: 'Human Resources' })),
-  ...BDO_ACCOUNTING_DOCS.map(d => ({ ...d, department: 'BDO & Accounting' })),
-  ...INSURANCE_INCIDENTS_DOCS.map(d => ({ ...d, department: 'Insurance & Incidents' })),
-  ...IT_DOCS.map(d => ({ ...d, department: 'IT' })),
-  ...HANDBOOK_DOCS.map(d => ({ ...d, department: 'Handbooks' }))
-].sort((a, b) => a.title.localeCompare(b.title));
+// Department Filtered Subsets (Alphabetical A-Z)
+export const SECURITY_PLATFORM_DOCS: DocumentItem[] = MASTER_DOCUMENTS
+  .filter(d => d.departments?.includes('Security Platform'))
+  .sort((a, b) => a.title.localeCompare(b.title));
+
+export const HUMAN_RESOURCES_DOCS: DocumentItem[] = MASTER_DOCUMENTS
+  .filter(d => d.departments?.includes('Human Resources'))
+  .sort((a, b) => a.title.localeCompare(b.title));
+
+export const BDO_ACCOUNTING_DOCS: DocumentItem[] = MASTER_DOCUMENTS
+  .filter(d => d.departments?.includes('BDO & Accounting'))
+  .sort((a, b) => a.title.localeCompare(b.title));
+
+export const INSURANCE_INCIDENTS_DOCS: DocumentItem[] = MASTER_DOCUMENTS
+  .filter(d => d.departments?.includes('Insurance & Incidents'))
+  .sort((a, b) => a.title.localeCompare(b.title));
+
+export const IT_DOCS: DocumentItem[] = MASTER_DOCUMENTS
+  .filter(d => d.departments?.includes('IT'))
+  .sort((a, b) => a.title.localeCompare(b.title));
+
+export const HANDBOOK_DOCS: DocumentItem[] = MASTER_DOCUMENTS
+  .filter(d => d.departments?.includes('Handbooks & Hub'))
+  .sort((a, b) => a.title.localeCompare(b.title));
+
+// Master Unified Document Collection (Unique A-Z, zero duplicates)
+export const ALL_DOCUMENTS: DocumentItem[] = [...MASTER_DOCUMENTS]
+  .sort((a, b) => a.title.localeCompare(b.title));

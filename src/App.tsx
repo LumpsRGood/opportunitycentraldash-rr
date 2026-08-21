@@ -1206,15 +1206,15 @@ export default function App() {
           />
         </section>
 
-        {/* 6. Handbooks Panel */}
+        {/* 6. Handbooks & Hub Panel */}
         <section id="handbooks" ref={sectionRefs.handbooks} className="oc-panel mb-8">
           <div className="oc-section-heading">
             <span className="oc-icon" aria-hidden="true">
               <BookOpen size={20} />
             </span>
             <div>
-              <h2>Handbooks</h2>
-              <p>Store employee handbook and team member appearance &amp; uniform standards.</p>
+              <h2>Handbooks &amp; Hub</h2>
+              <p>Store employee handbook, leadership directory &amp; contacts, and team member appearance standards.</p>
             </div>
           </div>
 
@@ -1246,7 +1246,7 @@ export default function App() {
               'BDO & Accounting',
               'Insurance & Incidents',
               'IT',
-              'Handbooks'
+              'Handbooks & Hub'
             ].map((dept) => {
               const isSelected = hubCategory === dept;
               return (

@@ -13,4 +13,5 @@ export interface DocumentItem {
   sharepointUrl?: string;
   keywords?: string[];
   department?: string;
+  departments?: string[];
 }

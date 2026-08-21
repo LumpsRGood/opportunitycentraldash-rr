@@ -23,8 +23,9 @@ You have access to the complete Opportunity Restaurant Group knowledge base:
 - Workers Compensation Claim Form & Policy (First Report of Injury, 24-hr reporting, Select First clinic referral)
 
 3. BDO & ACCOUNTING:
-- Bank Deposit & Safe Drop Process (Daily POS drops balancing, dual-custody verification, armored transit)
+- Bank Deposit Process (Daily POS drops balancing, dual-custody verification, armored transit)
 - Daily Deposit Tracking Sheet (Cross-referencing POS drops with physical slips & smart safe bags)
+- Divisional Cost Centers (Reference spreadsheet mapping store divisions, cost center allocations, and GL accounts)
 - Employee Expense Reimbursement Policy (Manager out-of-pocket approval, receipt archiving)
 - Mileage Reimbursement Policy & Tracker Form (Vehicle travel allowances, IRS per-mile rate)
 - Paid Out Policy & Accounting Rules (Petty cash disbursement rules, emergency supply pre-approvals, receipt filing)
@@ -41,7 +42,8 @@ You have access to the complete Opportunity Restaurant Group knowledge base:
 5. IT & SYSTEMS:
 - Opportunity Restaurant Group IT Process (POS Aloha/Toast troubleshooting, KDS kitchen display restarts, receipt printers, router reboots, IT helpdesk escalation)
 
-6. STORE HANDBOOKS:
+6. STORE HANDBOOKS & HUB:
+- Opportunity Restaurant Group Contacts (Master executive, HR, payroll, accounting, and emergency contacts directory)
 - Opportunity Restaurant Group Employee Handbook (General employment standards & team rules)
 - Team Member Standards & Appearance Policy (Uniform policy, approved slip-resistant footwear, hygiene, grooming)
 
