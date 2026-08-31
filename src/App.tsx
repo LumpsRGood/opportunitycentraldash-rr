@@ -63,10 +63,10 @@ import {
   HANDBOOK_DOCS
 } from './data/documents.ts';
 
-const APP_VERSION = 'v1.1.0';
+const APP_VERSION = 'v1.3.0';
 
 export default function App() {
-  const { isAuthenticated, user, login, loginAsDemo, logout, isLoading, error, isConfigured } = useAuth();
+  const { isAuthenticated, user, login, logout, isLoading, error, isConfigured } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [hubCategory, setHubCategory] = useState('All Departments');
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
@@ -158,7 +158,6 @@ export default function App() {
     return (
       <LoginScreen
         onLoginWithMicrosoft={login}
-        onPreviewLogin={() => loginAsDemo('Opportunity Leader', 'General Manager')}
         isLoading={isLoading}
         error={error}
       />

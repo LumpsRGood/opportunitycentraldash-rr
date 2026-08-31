@@ -1,19 +1,17 @@
 import React from 'react';
-import { ArrowRight, AlertCircle, Eye } from 'lucide-react';
+import { ArrowRight, AlertCircle, ShieldCheck, Lock } from 'lucide-react';
 import { OpportunityGroupLogo } from './OpportunityLogo';
 import { RedRobinEmblem } from './RedRobinEmblem';
 import { RedRobinBrandBackdrop } from './RedRobinBrandBackdrop';
 
 interface LoginScreenProps {
   onLoginWithMicrosoft: () => void;
-  onPreviewLogin: () => void;
   isLoading?: boolean;
   error?: string | null;
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({
   onLoginWithMicrosoft,
-  onPreviewLogin,
   isLoading = false,
   error = null,
 }) => {
@@ -33,8 +31,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         </div>
 
         {/* User-Provided Red Robin Logo */}
-        <div className="flex items-center justify-center px-4 mb-6">
+        <div className="flex items-center justify-center px-4 mb-5">
           <RedRobinEmblem className="h-12 w-auto max-w-[200px]" />
+        </div>
+
+        {/* Organization Security Badge */}
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 rounded-full text-slate-700 text-xs font-semibold mb-5 border border-slate-200">
+          <Lock className="w-3 h-3 text-red-600" />
+          <span>Internal Organization Access Only</span>
         </div>
 
         {/* Error Feedback */}
@@ -60,25 +64,21 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             <rect x="11" y="1" width="9" height="9" fill="#7fba00" />
             <rect x="11" y="11" width="9" height="9" fill="#ffb900" />
           </svg>
-          <span>{isLoading ? 'Signing in...' : 'Sign in with Microsoft 365'}</span>
+          <span>{isLoading ? 'Connecting to Microsoft...' : 'Sign in with Microsoft 365'}</span>
           <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-0.5 transition-transform" />
         </button>
 
-        {/* Direct Studio Preview Access Button */}
-        <button
-          id="preview-portal-btn"
-          type="button"
-          onClick={onPreviewLogin}
-          className="w-full mt-3 flex items-center justify-center gap-2 py-2.5 px-4 bg-red-50 hover:bg-red-100 text-[#ED1C24] font-semibold text-xs rounded-xl transition-all border border-red-200 shadow-sm"
-        >
-          <Eye className="w-3.5 h-3.5" />
-          <span>Enter Opportunity Central (Preview Mode)</span>
-        </button>
-
-        <p className="text-[11px] text-gray-400 mt-4 font-medium">
-          Authorized Opportunity Restaurant Group Personnel
-        </p>
+        <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col items-center gap-1.5">
+          <div className="flex items-center gap-1 text-[11.5px] font-semibold text-slate-600">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Opportunity Restaurant Group Entra ID</span>
+          </div>
+          <p className="text-[11px] text-gray-400 font-medium">
+            Requires active @opportunityrestaurantgroup.com account
+          </p>
+        </div>
       </div>
     </div>
   );
 };
+
