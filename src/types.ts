@@ -1,5 +1,17 @@
 import { LucideIcon } from 'lucide-react';
 
+export interface StateDocVariant {
+  state: string;
+  abbr: string;
+  sharepointUrl: string;
+}
+
+export interface SubmissionContact {
+  name: string;
+  email: string;
+  role?: string;
+}
+
 export interface DocumentItem {
   id: string;
   title: string;
@@ -14,4 +26,10 @@ export interface DocumentItem {
   keywords?: string[];
   department?: string;
   departments?: string[];
+  stateVariants?: StateDocVariant[];
+  submissionNotice?: {
+    deadlineHours?: number;
+    description?: string;
+    contacts: SubmissionContact[];
+  };
 }

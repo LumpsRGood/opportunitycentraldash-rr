@@ -1,4 +1,4 @@
-import { DocumentItem } from '../types';
+import { DocumentItem, StateDocVariant, SubmissionContact } from '../types';
 import { 
   ShieldAlert, 
   Flame, 
@@ -22,7 +22,10 @@ import {
   HeartHandshake,
   BookOpen,
   Contact,
-  Building
+  Building,
+  CalendarOff,
+  PhoneCall,
+  Accessibility
 } from 'lucide-react';
 import { ensureWebViewerUrl } from '../utils/urlHelper';
 
@@ -521,7 +524,8 @@ export const MASTER_DOCUMENTS: DocumentItem[] = [
     sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQDOzpMwfGAQSYQB3UyYRFAyASuPYhd62-VXhq-CCHG7V8c')
   },
 
-  // 36. Workers Compensation Claim Form (HR & Insurance)
+  // 36. Workers Compensation Claim Form (HR & Insurance) - Commented out in favor of multi-state Worker's Compensation Documents
+  /*
   {
     id: 'doc-workers-comp-claim',
     title: 'Workers Compensation Claim Form',
@@ -533,6 +537,125 @@ export const MASTER_DOCUMENTS: DocumentItem[] = [
     departments: ['Human Resources', 'Insurance & Incidents'],
     department: 'Human Resources',
     sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDaDaKkqJjuSYqVmys0II22AbRi63iLLx38YhKnXiefLpE')
+  },
+  */
+
+  // 37. Leave of Absence Request Form
+  {
+    id: 'hr-leave-of-absence-form',
+    title: 'Leave of Absence Request Form',
+    description: 'Official employee request form for medical, family, personal, military, or bereavement leave, documenting leave duration, manager sign-off, and HR authorization.',
+    category: 'Forms & Templates',
+    format: 'DOCX',
+    bandClass: 'blue',
+    icon: CalendarOff,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    keywords: ['leave', 'loa', 'absence', 'fmla', 'medical leave', 'time off', 'extended leave', 'bereavement', 'military leave', 'request form'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQCBrk7MHn7GSLYCofVRRFUfATJ4aYoHwszXUMxP4-UQbmo')
+  },
+
+  // 38. AmCare Nurse Triage Flyer
+  {
+    id: 'doc-amcare-nurse-triage',
+    title: 'AmCare Nurse Triage',
+    description: "Please post this flyer in break rooms and other employee shared spaces. If an employee is injured at work and would like to speak with a nurse before submitting a workers' compensation claim, they may call the toll-free number listed on the flyer to discuss next steps.",
+    category: 'Safety & Benefits',
+    format: 'PDF',
+    bandClass: 'crimson',
+    icon: PhoneCall,
+    departments: ['Human Resources', 'Insurance & Incidents'],
+    department: 'Human Resources',
+    keywords: ['amcare', 'nurse', 'nurse triage', 'triage', 'flyer', 'injury', 'injured', 'workers comp', 'toll-free', 'break room', 'first aid', 'telephonic nurse', 'medical advice'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQCF6_hQZw27SpUjNYzEQ8YfAcG9OE0v6ROjaWUY59JBros')
+  },
+
+  // 39. Reasonable Accommodation Form
+  {
+    id: 'hr-reasonable-accommodation-form',
+    title: 'Reasonable Accommodation Form',
+    description: 'Official employee request and interactive process form for workplace accommodations under the Americans with Disabilities Act (ADA), medical restrictions, or religious practices.',
+    category: 'Forms & Templates',
+    format: 'DOCX',
+    bandClass: 'emerald',
+    icon: Accessibility,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    keywords: ['reasonable accommodation', 'accommodation', 'ada', 'disability', 'medical accommodation', 'interactive process', 'workplace accommodation', 'restrictions', 'religious accommodation', 'request form'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQA9pat25r9TSL1-K4mNnMsgAeG-UeZJbC1xvn6hwX4h2rY')
+  },
+
+  // 40. Worker's Compensation Documents
+  {
+    id: 'doc-all-state-workers-comp',
+    title: "Worker's Compensation Documents",
+    description: "Please use the appropriate state-specific form for your market when reporting a workplace injury.",
+    category: 'Forms & Templates',
+    format: 'PDF Pack',
+    bandClass: 'crimson',
+    icon: FileCheck,
+    departments: ['Human Resources', 'Insurance & Incidents'],
+    department: 'Insurance & Incidents',
+    stateVariants: [
+      {
+        state: 'Indiana',
+        abbr: 'IN',
+        sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDfL77oS7SITIIoXc3WS5pwAWg9MiSOQnh1tKZbSXdLz7Y')
+      },
+      {
+        state: 'North Carolina',
+        abbr: 'NC',
+        sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQCtcWwbMWPGR7z8JjL8gD-QAcMgwhQb2Ue1vS2FX1OB294')
+      },
+      {
+        state: 'Ohio',
+        abbr: 'OH',
+        sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDkimwR0C7TR5hLi9UU9_tKAXM2MzsMeujxNfBRClSFVyI')
+      },
+      {
+        state: 'Pennsylvania',
+        abbr: 'PA',
+        sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDKTOiRORagSKPZicJ0lQa8Ab17dCo5UqtLHWvahEvSkio')
+      },
+      {
+        state: 'South Carolina',
+        abbr: 'SC',
+        sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQAbNSAnxk4YT6vyvEV5i0MKARGa-hOCTrQQ7jq1p6SBvxg')
+      },
+      {
+        state: 'Virginia',
+        abbr: 'VA',
+        sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQD4T0Lq7m4eQK6z5F5txCLSAeRZqJAztKJSyu-knyoshVA')
+      }
+    ],
+    submissionNotice: {
+      deadlineHours: 24,
+      description: 'Mandatory: Complete and submit within 24 hours of incident to all 3 designated recipients.',
+      contacts: [
+        {
+          name: 'Taylor Maltese',
+          email: 'tmaltese@opportunityrestaurantgroup.com',
+          role: 'Opportunity Restaurant Group'
+        },
+        {
+          name: 'Hani Ascha',
+          email: 'hani@selectfirstinsurance.com',
+          role: 'Select First Insurance'
+        },
+        {
+          name: 'Deniel Salazar',
+          email: 'dsalazar@selectfirstinsurance.com',
+          role: 'Select First Insurance'
+        }
+      ]
+    },
+    keywords: [
+      'workers comp', 'workers compensation', 'state specific', 'market forms', 'injury report',
+      'workplace accident', 'claim form', 'indiana', 'north carolina', 'ohio', 'pennsylvania',
+      'south carolina', 'virginia', 'in', 'nc', 'oh', 'pa', 'sc', 'va', 'first report of injury',
+      'taylor maltese', 'hani ascha', 'deniel salazar', 'select first', '24 hours'
+    ],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDfL77oS7SITIIoXc3WS5pwAWg9MiSOQnh1tKZbSXdLz7Y')
   }
 ];
 

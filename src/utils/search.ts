@@ -48,6 +48,8 @@ export function matchDocument(doc: DocumentItem & { department?: string }, rawQu
   // Build searchable text corpus for the document
   const keywordsStr = (doc.keywords || []).join(' ').toLowerCase();
   const deptsStr = (doc.departments || []).join(' ').toLowerCase();
+  const statesStr = (doc.stateVariants || []).map(v => `${v.state} ${v.abbr}`).join(' ').toLowerCase();
+  const contactsStr = (doc.submissionNotice?.contacts || []).map(c => `${c.name} ${c.email}`).join(' ').toLowerCase();
   const docCorpus = [
     doc.title.toLowerCase(),
     doc.description.toLowerCase(),
@@ -55,7 +57,9 @@ export function matchDocument(doc: DocumentItem & { department?: string }, rawQu
     (doc.department || '').toLowerCase(),
     deptsStr,
     doc.format.toLowerCase(),
-    keywordsStr
+    keywordsStr,
+    statesStr,
+    contactsStr
   ].join(' ');
 
   // Direct full substring match

@@ -16,8 +16,11 @@ You have access to the complete Opportunity Restaurant Group knowledge base:
 - Store Lockdown Policy (Shelter-in-place vs full lockdown, door fortification, guest communication)
 
 2. HUMAN RESOURCES:
+- AmCare Nurse Triage Flyer (Toll-free nurse consultation hotline for injured employees, post in break rooms)
 - Employee Corrective Action Form & Policy (Progressive coaching, verbal/written warnings, PIPs)
 - Employee Termination Form & Policy (Voluntary/involuntary separation checklists, final pay, asset recovery)
+- Leave of Absence Request Form (Medical, family, personal, military, bereavement leave, manager sign-off)
+- Reasonable Accommodation Form (ADA & medical accommodation interactive process, employee requests, HR review)
 - Sexual Harassment Prevention Training (Zero-tolerance, reporting avenues, anti-discrimination)
 - Timecard Adjustment Policy (Missed punches, overtime approval, supervisor sign-offs)
 - Workers Compensation Claim Form & Policy (First Report of Injury, 24-hr reporting, Select First clinic referral)
@@ -35,6 +38,8 @@ You have access to the complete Opportunity Restaurant Group knowledge base:
 - Vendor Setup Policy & W-9 Requirements (New supplier onboarding, Certificate of Insurance, AP approval)
 
 4. INSURANCE & INCIDENTS:
+- Worker's Compensation Documents (State-specific injury filing forms for Indiana, North Carolina, Ohio, Pennsylvania, South Carolina, and Virginia; mandatory 24-hr reporting)
+- AmCare Nurse Triage Flyer (Toll-free nurse triage hotline for injured employees before filing workers comp)
 - Guest & Vendor Incident Report Form (Mandatory report for slips, falls, burns, lot damage, contractor incidents)
 - Guest Incident Management Policy (Claims mitigation, CCTV preservation, claims agent reporting)
 - Workers Comp Employee Claim Form & Policy (Workplace injury reporting, employer duty of care)
@@ -90,26 +95,51 @@ const KNOWLEDGE_TOPICS: KnowledgeTopic[] = [
    - Submit the incident report and CCTV footage to **GChadrick@opportunityrestaurantgroup.com** within 24 hours.`
   },
   {
-    keywords: ['workers comp', 'work injury', 'employee hurt', 'employee injury', 'first report of injury', 'injured on job', 'workplace accident'],
+    keywords: ['workers comp', 'work injury', 'employee hurt', 'employee injury', 'first report of injury', 'injured on job', 'workplace accident', 'workers compensation', 'injury reporting'],
     title: 'Employee Injury & Workers Compensation Procedure',
-    policy: 'Workers Compensation Policy & Claim Form',
-    sharepointDocUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/personal/gchadrick_opportunityrestaurantgroup_com/Documents/RedRobinDashDocuments/HR/Workers%20comp%20form.pdf?web=1',
+    policy: 'All State Workers Compensation Documents & Policy',
+    sharepointDocUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDfL77oS7SITIIoXc3WS5pwAWg9MiSOQnh1tKZbSXdLz7Y?web=1',
     response: `Here is the step-by-step **Workers Compensation & Employee Injury Protocol**:
 
-1. **Immediate Medical Attention:**
+1. **Immediate Medical Attention & AmCare Nurse Triage:**
    - Provide immediate first aid or dispatch EMS/911 for severe injuries.
-   - For non-emergency medical evaluation, direct the team member to the designated company occupational clinic.
+   - For non-emergency workplace injuries where an employee would like to speak with a nurse before submitting a claim, call the toll-free number on the **AmCare Nurse Triage Flyer** posted in the break room.
+   - Direct the team member to the designated company occupational health clinic.
 
-2. **Mandatory 24-Hour Claim Filing:**
-   - Complete the official **Workers Compensation Claim Form** (PDF) within **24 hours** of the injury.
+2. **State-Specific Form & Mandatory 24-Hour Submission:**
+   - Use the appropriate **state-specific form for your market** (Indiana, North Carolina, Ohio, Pennsylvania, South Carolina, or Virginia).
+   - Complete the report within **24 hours** of the injury.
    - Both the injured employee and the Manager on Duty (MOD) must complete their designated sections.
 
-3. **Investigation & Evidence:**
-   - Take photos of equipment, footwear, spill area, or safety hazard.
-   - Secure relevant surveillance footage per the **Evidence Preservation Process**.
+3. **Mandatory Report Recipients:**
+   - Email the completed state injury report within 24 hours to **all three** of the following individuals:
+     - **Taylor Maltese:** \`tmaltese@opportunityrestaurantgroup.com\`
+     - **Hani Ascha:** \`hani@selectfirstinsurance.com\`
+     - **Deniel Salazar:** \`dsalazar@selectfirstinsurance.com\`
 
-4. **HR Submission:**
-   - Email completed forms immediately to HR at **TFurr@opportunityrestaurantgroup.com** and copy leadership.`
+4. **Investigation & Evidence:**
+   - Take photos of equipment, footwear, spill area, or safety hazard.
+   - Secure relevant surveillance CCTV footage per the **Evidence Preservation Process**.`
+  },
+  {
+    keywords: ['indiana workers comp', 'north carolina workers comp', 'ohio workers comp', 'pennsylvania workers comp', 'south carolina workers comp', 'virginia workers comp', 'state workers comp', 'market workers comp', 'state specific forms', 'taylor maltese', 'hani ascha', 'deniel salazar'],
+    title: 'State-Specific Workers Compensation Forms by Market',
+    policy: 'All State Workers Compensation Documents',
+    sharepointDocUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDfL77oS7SITIIoXc3WS5pwAWg9MiSOQnh1tKZbSXdLz7Y?web=1',
+    response: `Here are the official **State-Specific Workers' Compensation Forms** by market:
+
+- **Indiana (IN):** [Open Indiana Workers Comp Form](https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDfL77oS7SITIIoXc3WS5pwAWg9MiSOQnh1tKZbSXdLz7Y?web=1)
+- **North Carolina (NC):** [Open North Carolina Workers Comp Form](https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQCtcWwbMWPGR7z8JjL8gD-QAcMgwhQb2Ue1vS2FX1OB294?web=1)
+- **Ohio (OH):** [Open Ohio Workers Comp Form](https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDkimwR0C7TR5hLi9UU9_tKAXM2MzsMeujxNfBRClSFVyI?web=1)
+- **Pennsylvania (PA):** [Open Pennsylvania Workers Comp Form](https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDKTOiRORagSKPZicJ0lQa8Ab17dCo5UqtLHWvahEvSkio?web=1)
+- **South Carolina (SC):** [Open South Carolina Workers Comp Form](https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQAbNSAnxk4YT6vyvEV5i0MKARGa-hOCTrQQ7jq1p6SBvxg?web=1)
+- **Virginia (VA):** [Open Virginia Workers Comp Form](https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQD4T0Lq7m4eQK6z5F5txCLSAeRZqJAztKJSyu-knyoshVA?web=1)
+
+**Mandatory 24-Hour Rule:**
+These reports must be completed within **24 hours** and emailed to all 3 designated recipients:
+- **Taylor Maltese:** \`tmaltese@opportunityrestaurantgroup.com\`
+- **Hani Ascha:** \`hani@selectfirstinsurance.com\`
+- **Deniel Salazar:** \`dsalazar@selectfirstinsurance.com\``
   },
   {
     keywords: ['robbery', 'robbed', 'theft', 'stick up', 'cashier robbery', 'safe robbery', 'gunpoint', 'intruder'],
@@ -282,6 +312,63 @@ const KNOWLEDGE_TOPICS: KnowledgeTopic[] = [
 
 3. **HR / Payroll Questions:**
    - Contact **TFurr@opportunityrestaurantgroup.com**.`
+  },
+  {
+    keywords: ['leave', 'loa', 'leave of absence', 'fmla', 'medical leave', 'extended absence', 'bereavement', 'military leave', 'time off request'],
+    title: 'Leave of Absence Request Form & Guidelines',
+    policy: 'Leave of Absence Request Form',
+    sharepointDocUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQCBrk7MHn7GSLYCofVRRFUfATJ4aYoHwszXUMxP4-UQbmo?web=1',
+    response: `Here is the **Leave of Absence (LOA) Protocol**:
+
+1. **Eligible Leave Categories:**
+   - Medical Leave (self-care, illness, surgery, or medical treatment)
+   - Family Leave (care for an immediate family member)
+   - Parental / Maternity / Paternity Leave
+   - Military Leave (active duty or reserve training commitments)
+   - Bereavement / Personal Leave
+
+2. **Submission & Approval Process:**
+   - Complete the **Leave of Absence Request Form** specifying expected start date, anticipated return date, and reason for leave.
+   - Review and obtain initial sign-off from your Store General Manager.
+   - Submit completed forms to Human Resources at **TFurr@opportunityrestaurantgroup.com** for formal evaluation and authorization.
+
+3. **Returning to Work:**
+   - For medical leaves, a medical release / clearance from a healthcare provider may be required before returning to scheduled shifts.`
+  },
+  {
+    keywords: ['amcare', 'nurse triage', 'triage', 'nurse hotline', 'triage flyer', 'call nurse', 'injured nurse', 'break room flyer'],
+    title: 'AmCare Nurse Triage & Break Room Posting',
+    policy: 'AmCare Nurse Triage',
+    sharepointDocUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQCF6_hQZw27SpUjNYzEQ8YfAcG9OE0v6ROjaWUY59JBros?web=1',
+    response: `Here are the guidelines for the **AmCare Nurse Triage Flyer**:
+
+1. **Break Room & Shared Space Posting:**
+   - General Managers should print and post this flyer in break rooms and other employee shared spaces across the restaurant.
+
+2. **Telephonic Nurse Consultation for Injuries:**
+   - If an employee is injured at work and would like to speak with a nurse before submitting a workers' compensation claim, they may call the toll-free number listed on the flyer to discuss next steps.
+   - The triage nurse assists with initial assessment, medical triage, and next-step recommendations.
+
+3. **Workers' Compensation Documentation:**
+   - If formal medical care is needed or if work restrictions apply, complete the **Workers Compensation Claim Form** and notify HR at **TFurr@opportunityrestaurantgroup.com** within 24 hours.`
+  },
+  {
+    keywords: ['accommodation', 'reasonable accommodation', 'ada', 'disability', 'medical accommodation', 'workplace accommodation', 'interactive process', 'physical restriction', 'religious accommodation'],
+    title: 'Reasonable Accommodation Policy & Request Form',
+    policy: 'Reasonable Accommodation Form',
+    sharepointDocUrl: 'https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQA9pat25r9TSL1-K4mNnMsgAeG-UeZJbC1xvn6hwX4h2rY?web=1',
+    response: `Here is the protocol for **Reasonable Accommodations**:
+
+1. **Interactive Process & ADA Compliance:**
+   - Opportunity Restaurant Group is committed to providing reasonable accommodations to qualified individuals with disabilities or medical restrictions, as well as for sincerely held religious beliefs, in accordance with the ADA and state laws.
+
+2. **How to Request an Accommodation:**
+   - Complete the **Reasonable Accommodation Form** describing the nature of the limitation, the specific job duties impacted, and the requested accommodation.
+   - For medical accommodations, appropriate healthcare provider documentation may be required specifying functional capabilities and duration.
+
+3. **Submission & HR Evaluation:**
+   - Submit the completed form to Human Resources at **TFurr@opportunityrestaurantgroup.com**.
+   - HR and store management will engage in a collaborative interactive discussion with the team member to determine reasonable and effective workplace accommodations that do not cause undue hardship.`
   }
 ];
 

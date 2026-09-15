@@ -63,7 +63,7 @@ import {
   HANDBOOK_DOCS
 } from './data/documents.ts';
 
-const APP_VERSION = 'v1.3.0';
+const APP_VERSION = 'v1.5.0';
 
 export default function App() {
   const { isAuthenticated, user, login, logout, isLoading, error, isConfigured } = useAuth();
@@ -506,11 +506,15 @@ export default function App() {
         }
 
         .oc-doc-card.card-green { border-left-color: #15803d; }
+        .oc-doc-card.card-emerald { border-left-color: #059669; }
         .oc-doc-card.card-red { border-left-color: #ED1C24; }
+        .oc-doc-card.card-crimson { border-left-color: #e11d48; }
         .oc-doc-card.card-orange { border-left-color: #F9A70D; }
+        .oc-doc-card.card-amber { border-left-color: #d97706; }
         .oc-doc-card.card-forest { border-left-color: #166534; }
         .oc-doc-card.card-purple { border-left-color: #6A0203; }
         .oc-doc-card.card-blue { border-left-color: #0284c7; }
+        .oc-doc-card.card-teal { border-left-color: #0d9488; }
 
         .oc-doc-card:hover {
           transform: translateY(-4px);
@@ -538,11 +542,15 @@ export default function App() {
         }
 
         .oc-card-icon-wrapper.green { background-color: #f0fdf4; color: #15803d; }
+        .oc-card-icon-wrapper.emerald { background-color: #ecfdf5; color: #059669; }
         .oc-card-icon-wrapper.red { background-color: rgba(237, 28, 36, 0.08); color: #ED1C24; }
+        .oc-card-icon-wrapper.crimson { background-color: #fff1f2; color: #e11d48; }
         .oc-card-icon-wrapper.orange { background-color: rgba(249, 167, 13, 0.1); color: #F9A70D; }
+        .oc-card-icon-wrapper.amber { background-color: #fffbeb; color: #d97706; }
         .oc-card-icon-wrapper.forest { background-color: #f0fdf4; color: #166534; }
         .oc-card-icon-wrapper.purple { background-color: rgba(106, 2, 3, 0.08); color: #6A0203; }
         .oc-card-icon-wrapper.blue { background-color: #f0f9ff; color: #0284c7; }
+        .oc-card-icon-wrapper.teal { background-color: #f0fdfa; color: #0d9488; }
 
         .oc-card-title-container {
           flex: 1;
@@ -978,7 +986,7 @@ export default function App() {
             </h1>
             <p>One Stop Portal &amp; Directory | Opportunity Restaurant Group (Red Robin Franchisee)</p>
           </div>
-          <div className="flex items-center gap-5 sm:gap-6 flex-wrap md:flex-nowrap">
+          <div className="flex items-center gap-4 sm:gap-6 flex-wrap md:flex-nowrap">
             {/* Opportunity Restaurant Group Branding */}
             <OpportunityGroupLogo className="h-11 w-auto hidden sm:block shrink-0" />
 
@@ -986,6 +994,25 @@ export default function App() {
             <div className="border-l border-slate-200 pl-4 sm:pl-6 h-12 flex items-center shrink-0">
               <RedRobinLogo className="h-11 sm:h-12 w-auto select-none" />
             </div>
+
+            {/* User Session & Sign Out Button */}
+            {user && (
+              <div className="border-l border-slate-200 pl-4 sm:pl-6 flex items-center gap-3 shrink-0">
+                <div className="hidden lg:flex flex-col text-right">
+                  <span className="text-xs font-bold text-slate-800 truncate max-w-[150px]">{user.name}</span>
+                  <span className="text-[10.5px] text-slate-500 truncate max-w-[150px]">{user.role || 'Opportunity Leader'}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={logout}
+                  title="Sign out of Opportunity Central"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-red-700 bg-slate-100 hover:bg-red-50 border border-slate-200 hover:border-red-200 transition-colors cursor-pointer"
+                >
+                  <LogOut size={13} />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </button>
+              </div>
+            )}
           </div>
         </header>
 
@@ -1607,21 +1634,69 @@ export default function App() {
             <div className="flex flex-col gap-3 mb-4">
               <div className="oc-contact-card">
                 <div className="oc-contact-left">
+                  <span className="oc-contact-badge employee">Workers Comp</span>
+                  <div className="oc-contact-info">
+                    <h4 className="m-0 text-sm font-semibold text-slate-800">Taylor Maltese</h4>
+                    <p className="m-0 text-xs text-slate-500">Injury Reporting | Opportunity Restaurant Group</p>
+                  </div>
+                </div>
+                <button 
+                  type="button"
+                  onClick={() => handleCopyEmail('tmaltese@opportunityrestaurantgroup.com')}
+                  className="oc-contact-email-btn"
+                  title="Click to copy email address"
+                >
+                  <Mail size={14} />
+                  <span className="text-xs">tmaltese@opportunityrestaurantgroup.com</span>
+                  {copiedEmail === 'tmaltese@opportunityrestaurantgroup.com' ? (
+                    <Check size={14} className="text-green-600" />
+                  ) : (
+                    <Copy size={12} className="opacity-60" />
+                  )}
+                </button>
+              </div>
+
+              <div className="oc-contact-card">
+                <div className="oc-contact-left">
                   <span className="oc-contact-badge employee">Employee</span>
                   <div className="oc-contact-info">
-                    <h4 className="m-0 text-sm font-semibold text-slate-800">Hani</h4>
+                    <h4 className="m-0 text-sm font-semibold text-slate-800">Hani Ascha</h4>
                     <p className="m-0 text-xs text-slate-500">Primary Contact | Select First Insurance</p>
                   </div>
                 </div>
                 <button 
                   type="button"
-                  onClick={() => handleCopyEmail('Hani@selectfirstinsurance.com')}
+                  onClick={() => handleCopyEmail('hani@selectfirstinsurance.com')}
                   className="oc-contact-email-btn"
                   title="Click to copy email address"
                 >
                   <Mail size={14} />
-                  <span className="text-xs">Hani@selectfirstinsurance.com</span>
-                  {copiedEmail === 'Hani@selectfirstinsurance.com' ? (
+                  <span className="text-xs">hani@selectfirstinsurance.com</span>
+                  {copiedEmail === 'hani@selectfirstinsurance.com' ? (
+                    <Check size={14} className="text-green-600" />
+                  ) : (
+                    <Copy size={12} className="opacity-60" />
+                  )}
+                </button>
+              </div>
+
+              <div className="oc-contact-card">
+                <div className="oc-contact-left">
+                  <span className="oc-contact-badge employee">Workers Comp</span>
+                  <div className="oc-contact-info">
+                    <h4 className="m-0 text-sm font-semibold text-slate-800">Deniel Salazar</h4>
+                    <p className="m-0 text-xs text-slate-500">Claims Coordinator | Select First Insurance</p>
+                  </div>
+                </div>
+                <button 
+                  type="button"
+                  onClick={() => handleCopyEmail('dsalazar@selectfirstinsurance.com')}
+                  className="oc-contact-email-btn"
+                  title="Click to copy email address"
+                >
+                  <Mail size={14} />
+                  <span className="text-xs">dsalazar@selectfirstinsurance.com</span>
+                  {copiedEmail === 'dsalazar@selectfirstinsurance.com' ? (
                     <Check size={14} className="text-green-600" />
                   ) : (
                     <Copy size={12} className="opacity-60" />

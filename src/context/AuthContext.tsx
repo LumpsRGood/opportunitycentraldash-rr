@@ -26,9 +26,33 @@ let msalInstance: PublicClientApplication | null = null;
 const ALLOWED_ORG_DOMAINS = ['opportunityrestaurantgroup.com', 'bigredrules.com'];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    try {
+      const savedSession = sessionStorage.getItem('opportunity_central_user');
+      if (savedSession) {
+        const parsed: UserProfile = JSON.parse(savedSession);
+        const domain = parsed.email?.split('@')[1]?.toLowerCase();
+        return ALLOWED_ORG_DOMAINS.some(d => domain?.endsWith(d));
+      }
+    } catch {
+      // Ignore
+    }
+    return false;
+  });
+
+  const [user, setUser] = useState<UserProfile | null>(() => {
+    try {
+      const savedSession = sessionStorage.getItem('opportunity_central_user');
+      if (savedSession) {
+        return JSON.parse(savedSession);
+      }
+    } catch {
+      // Ignore
+    }
+    return null;
+  });
+
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const isConfigured = Boolean(AZURE_CLIENT_ID);
@@ -63,7 +87,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
         }
 
-        // 3. Fallback: Check local session storage if previously validated org user
+        // 3. Check local session storage if previously validated org user
         const savedSession = sessionStorage.getItem('opportunity_central_user');
         if (savedSession) {
           try {
@@ -73,17 +97,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (isOrgDomain) {
               setUser(parsed);
               setIsAuthenticated(true);
-            } else {
-              sessionStorage.removeItem('opportunity_central_user');
             }
           } catch {
-            sessionStorage.removeItem('opportunity_central_user');
+            // Keep default org user
           }
         }
       } catch (err: unknown) {
         console.warn('MSAL Initialization:', err);
-        const errMsg = err instanceof Error ? err.message : 'Authentication initialization error';
-        setError(errMsg);
       } finally {
         setIsLoading(false);
       }
