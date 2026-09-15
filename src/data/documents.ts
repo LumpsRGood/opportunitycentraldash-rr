@@ -325,7 +325,7 @@ export const MASTER_DOCUMENTS: DocumentItem[] = [
     icon: Car,
     departments: ['BDO & Accounting'],
     department: 'BDO & Accounting',
-    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQB0rar9jGCfRYzZ9Fv1-VRwAW3OKl4UyaDh1JskJvEJijQ')
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQDRjV_dHaywRJ0bns6uAET_AS8bPCfe4rQKlQVnzq4SLYw')
   },
 
   // 22. Mileage Tracker & Reimbursement Form
