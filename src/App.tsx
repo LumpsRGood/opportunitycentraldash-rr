@@ -62,7 +62,7 @@ import {
   HANDBOOK_DOCS
 } from './data/documents.ts';
 
-const APP_VERSION = 'v1.5.0';
+const APP_VERSION = 'v1.6.0';
 
 export default function App() {
   const { isAuthenticated, user, login, enterPreviewMode, logout, isLoading, error, isConfigured } = useAuth();
