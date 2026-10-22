@@ -51,7 +51,6 @@ import { DocumentItem } from './types.ts';
 import { LoginScreen } from './components/LoginScreen.tsx';
 import { useAuth } from './context/AuthContext.tsx';
 import { DocumentGrid } from './components/DocumentGrid.tsx';
-import { AiAssistant } from './components/AiAssistant.tsx';
 import { matchDocument } from './utils/search.ts';
 import {
   ALL_DOCUMENTS,
@@ -66,7 +65,7 @@ import {
 const APP_VERSION = 'v1.5.0';
 
 export default function App() {
-  const { isAuthenticated, user, login, logout, isLoading, error, isConfigured } = useAuth();
+  const { isAuthenticated, user, login, enterPreviewMode, logout, isLoading, error, isConfigured } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [hubCategory, setHubCategory] = useState('All Departments');
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
@@ -158,6 +157,7 @@ export default function App() {
     return (
       <LoginScreen
         onLoginWithMicrosoft={login}
+        onEnterPreview={enterPreviewMode}
         isLoading={isLoading}
         error={error}
       />
@@ -1634,10 +1634,13 @@ export default function App() {
             <div className="flex flex-col gap-3 mb-4">
               <div className="oc-contact-card">
                 <div className="oc-contact-left">
-                  <span className="oc-contact-badge employee">Workers Comp</span>
+                  <span className="oc-contact-badge employee">HR &amp; Workers Comp</span>
                   <div className="oc-contact-info">
-                    <h4 className="m-0 text-sm font-semibold text-slate-800">Taylor Maltese</h4>
-                    <p className="m-0 text-xs text-slate-500">Injury Reporting | Opportunity Restaurant Group</p>
+                    <h4 className="m-0 text-sm font-semibold text-slate-800 flex items-center gap-2">
+                      <span>Taylor Maltese</span>
+                      <span className="text-[10px] bg-red-100 text-[#8E0305] font-bold px-1.5 py-0.5 rounded">Primary HR Contact</span>
+                    </h4>
+                    <p className="m-0 text-xs text-slate-500">Human Resources, Benefits, LOA &amp; Injury Reporting | Opportunity Restaurant Group</p>
                   </div>
                 </div>
                 <button 
@@ -1820,8 +1823,6 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
-        {/* Test AI Chat Assistant (Commented out for now - can be re-enabled later) */}
-        {/* <AiAssistant /> */}
       </main>
     </>
   );

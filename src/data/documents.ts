@@ -25,7 +25,11 @@ import {
   Building,
   CalendarOff,
   PhoneCall,
-  Accessibility
+  Accessibility,
+  HelpCircle,
+  Sparkles,
+  Coins,
+  ClipboardSignature
 } from 'lucide-react';
 import { ensureWebViewerUrl } from '../utils/urlHelper';
 
@@ -236,12 +240,12 @@ export const MASTER_DOCUMENTS: DocumentItem[] = [
     title: 'Guest & Vendor Incident Report Form',
     description: 'Mandatory official report form for documenting guest slips, falls, burns, vehicle lot damage, or contractor incidents.',
     category: 'Incident Protocols',
-    format: 'PDF',
+    format: 'DOCX',
     bandClass: 'crimson',
     icon: FileCheck,
     departments: ['Insurance & Incidents', 'Human Resources'],
     department: 'Insurance & Incidents',
-    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQBsOycmj7mBT7mOJIwWLv5yAeJznfpcc_aMXGbAXOXZUak')
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQB_8rZ-L9EjSII6yabGyBjsAadRv2FNFbIpyylrp_IhDBs')
   },
 
   // 16. Guest Incident Management Policy (Insurance & Incidents & HR)
@@ -570,10 +574,10 @@ export const MASTER_DOCUMENTS: DocumentItem[] = [
     sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQCF6_hQZw27SpUjNYzEQ8YfAcG9OE0v6ROjaWUY59JBros')
   },
 
-  // 39. Reasonable Accommodation Form
+  // 39. Reasonable Accommodation Request Form
   {
-    id: 'hr-reasonable-accommodation-form',
-    title: 'Reasonable Accommodation Form',
+    id: 'hr-reasonable-accommodation-request',
+    title: 'Reasonable Accommodation Request Form',
     description: 'Official employee request and interactive process form for workplace accommodations under the Americans with Disabilities Act (ADA), medical restrictions, or religious practices.',
     category: 'Forms & Templates',
     format: 'DOCX',
@@ -581,8 +585,23 @@ export const MASTER_DOCUMENTS: DocumentItem[] = [
     icon: Accessibility,
     departments: ['Human Resources'],
     department: 'Human Resources',
-    keywords: ['reasonable accommodation', 'accommodation', 'ada', 'disability', 'medical accommodation', 'interactive process', 'workplace accommodation', 'restrictions', 'religious accommodation', 'request form'],
+    keywords: ['reasonable accommodation', 'reasonable accommodation request form', 'request form', 'ada', 'disability', 'medical accommodation', 'interactive process', 'workplace accommodation', 'restrictions', 'religious accommodation'],
     sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQA9pat25r9TSL1-K4mNnMsgAeG-UeZJbC1xvn6hwX4h2rY')
+  },
+
+  // 40. Reasonable Accommodations Notification Form (HR USE ONLY)
+  {
+    id: 'hr-reasonable-accommodation-notification',
+    title: 'Reasonable Accommodations Notification Form (HR USE ONLY)',
+    description: 'Official HR documentation and notification record for workplace accommodations under the Americans with Disabilities Act (ADA), medical restrictions, or religious practices.',
+    category: 'Forms & Templates',
+    format: 'DOCX',
+    bandClass: 'amber',
+    icon: Accessibility,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    keywords: ['reasonable accommodations notification form', 'reasonable accommodation', 'hr use only', 'accommodation', 'ada', 'disability', 'medical accommodation', 'interactive process', 'workplace accommodation', 'restrictions', 'religious accommodation'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQBT-DFmukG1T6kLvZglnzbVAWHSrqAJgT443aoJTCwdqb0')
   },
 
   // 40. Worker's Compensation Documents
@@ -601,6 +620,11 @@ export const MASTER_DOCUMENTS: DocumentItem[] = [
         state: 'Indiana',
         abbr: 'IN',
         sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDfL77oS7SITIIoXc3WS5pwAWg9MiSOQnh1tKZbSXdLz7Y')
+      },
+      {
+        state: 'Maryland',
+        abbr: 'MD',
+        sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDEXKWNXTwTRIrdMrVyCPAdAUNGh6ZQ4VbG7zBlp0fiQns')
       },
       {
         state: 'North Carolina',
@@ -651,11 +675,131 @@ export const MASTER_DOCUMENTS: DocumentItem[] = [
     },
     keywords: [
       'workers comp', 'workers compensation', 'state specific', 'market forms', 'injury report',
-      'workplace accident', 'claim form', 'indiana', 'north carolina', 'ohio', 'pennsylvania',
-      'south carolina', 'virginia', 'in', 'nc', 'oh', 'pa', 'sc', 'va', 'first report of injury',
+      'workplace accident', 'claim form', 'indiana', 'maryland', 'north carolina', 'ohio', 'pennsylvania',
+      'south carolina', 'virginia', 'in', 'md', 'nc', 'oh', 'pa', 'sc', 'va', 'first report of injury',
       'taylor maltese', 'hani ascha', 'deniel salazar', 'select first', '24 hours'
     ],
     sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDfL77oS7SITIIoXc3WS5pwAWg9MiSOQnh1tKZbSXdLz7Y')
+  },
+
+  // 41. Employee Connect Flyer
+  {
+    id: 'hr-employee-connect',
+    title: 'Employee Connect Flyer',
+    description: 'Informational flyer outlining employee connect support resources, wellness assistance, and team member assistance contacts.',
+    category: 'Safety & Benefits',
+    format: 'PDF',
+    bandClass: 'teal',
+    icon: HeartHandshake,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    keywords: ['employee connect', 'connect flyer', 'wellness', 'support', 'resources', 'team member benefits', 'assistance program', 'eap'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDhG79rC6GVTqnu6L200GIBAaOaS-5kwSnV-xGaqkl7hCw')
+  },
+
+  // 42. Giving Fund (How To Apply)
+  {
+    id: 'hr-giving-fund-how-to-apply',
+    title: 'Giving Fund (How To Apply)',
+    description: 'Step-by-step guidance, qualification criteria, and instructions on how team members can apply for financial relief through the Giving Fund.',
+    category: 'Safety & Benefits',
+    format: 'DOCX',
+    bandClass: 'orange',
+    icon: HelpCircle,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    keywords: ['giving fund', 'how to apply', 'financial assistance', 'emergency grant', 'application guide', 'hardship fund', 'relief grant'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQCxfTsgBDe8Rqqq1k7pA3OJAQ_yR7Mky52yC9Ins-9DTIM')
+  },
+
+  // 43. HR Contact Quick Reference Sheet
+  {
+    id: 'hr-contact-quick-ref',
+    title: 'HR Contact Quick Reference Sheet',
+    description: 'Quick reference contact list for Human Resources personnel, employee relations escalations, benefits coordinators, and HR leadership.',
+    category: 'Store Contacts',
+    format: 'PDF',
+    bandClass: 'blue',
+    icon: PhoneCall,
+    departments: ['Human Resources', 'Handbooks & Hub'],
+    department: 'Human Resources',
+    keywords: ['hr contact', 'quick reference', 'phone list', 'directory', 'escalation', 'human resources contacts', 'hr team'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQDONpRREDfoTa-IiTGEnBHXAcuTRP-b43YeTWcJoP9oryE')
+  },
+
+  // 44. Giving Fund Request Form
+  {
+    id: 'hr-giving-fund-request',
+    title: 'Giving Fund Request Form',
+    description: 'Official financial hardship assistance request form for team members experiencing sudden emergency, medical, or family crises.',
+    category: 'Forms & Templates',
+    format: 'DOCX',
+    bandClass: 'crimson',
+    icon: FileCheck,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    keywords: ['giving fund request', 'request form', 'emergency assistance', 'hardship grant', 'financial relief', 'giving fund application'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQAmrlwg4K7WSYZg_iaU9rd4Af81KoBRU16AixOmYiNEgio')
+  },
+
+  // 45. Employee Status Change Form
+  {
+    id: 'hr-status-change-form',
+    title: 'Employee Status Change Form',
+    description: 'Official form for recording employee transfers, rate adjustments, title and promotion modifications, full-time/part-time shifts, and status changes.',
+    category: 'Forms & Templates',
+    format: 'DOCX',
+    bandClass: 'indigo',
+    icon: ClipboardSignature,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    keywords: ['status change', 'employee status change', 'promotion', 'pay rate', 'transfer', 'demotion', 'job title change', 'ft pt status', 'wage change'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQDQqBEcVQbCR5NvTO3rPU9MATNS5vVtAb7ddAgkUA8NeZ0')
+  },
+
+  // 46. Giving Fund Flyer
+  {
+    id: 'hr-giving-fund-flyer',
+    title: 'Giving Fund Flyer',
+    description: 'Informational flyer explaining the Opportunity Restaurant Group Giving Fund mission, eligibility, and how to get help during emergencies.',
+    category: 'Safety & Benefits',
+    format: 'PDF',
+    bandClass: 'red',
+    icon: Sparkles,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    keywords: ['giving fund flyer', 'break room flyer', 'charity', 'emergency assistance', 'hardship grant', 'employee relief'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQAwN2RVEXVTQJTq2UrdvTeGAaMezSH6A5fny0AV4kCyvww')
+  },
+
+  // 47. Giving Fund Contribution Form
+  {
+    id: 'hr-giving-fund-contribution',
+    title: 'Giving Fund Contribution Form',
+    description: 'Payroll deduction authorization and voluntary contribution form for team members wishing to donate and support the Giving Fund.',
+    category: 'Forms & Templates',
+    format: 'DOCX',
+    bandClass: 'emerald',
+    icon: Coins,
+    departments: ['Human Resources', 'BDO & Accounting'],
+    department: 'Human Resources',
+    keywords: ['giving fund contribution', 'donation', 'payroll deduction', 'voluntary contribution', 'giving fund donate', 'charity deduction'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQDczf3IElypSrdNRQaWXJSAAU49m-wQmyjM6bIVELVNqYY')
+  },
+
+  // 48. Empathy Flyer (Lincoln Financial Bereavement Support)
+  {
+    id: 'hr-empathy-flyer',
+    title: 'Empathy Flyer (Bereavement Support)',
+    description: 'Complimentary bereavement and family guidance service provided through Lincoln Financial Group Life Insurance. Includes 1:1 grief support, dedicated Care Managers, funeral planning, estate/probate guidance, and closing accounts assistance.',
+    category: 'Safety & Benefits',
+    format: 'PDF',
+    bandClass: 'purple',
+    icon: HeartHandshake,
+    departments: ['Human Resources'],
+    department: 'Human Resources',
+    keywords: ['empathy flyer', 'empathy', 'bereavement', 'grief support', 'lincoln financial', 'life insurance', 'group life', 'care manager', 'funeral planning', 'probate', 'estate guidance', 'closing accounts', 'beneficiary', 'eap'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQBy37fSJqVxQI9ovxidrvgUAX-BJsDgXM86LzWqZ-elWLQ')
   }
 ];
 

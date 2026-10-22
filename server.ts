@@ -1,27 +1,9 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
-import { SYSTEM_INSTRUCTION } from "./src/utils/aiKnowledge";
 
 dotenv.config();
-
-// Helper to get GoogleGenAI client
-function getGenAI(): GoogleGenAI {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    throw new Error("GEMINI_API_KEY environment variable is missing.");
-  }
-  return new GoogleGenAI({
-    apiKey,
-    httpOptions: {
-      headers: {
-        "User-Agent": "aistudio-build"
-      }
-    }
-  });
-}
 
 async function startServer() {
   const app = express();
@@ -44,59 +26,6 @@ async function startServer() {
   // Health check
   app.get("/api/health", (_req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
-  });
-
-  // AI Chat endpoint
-  app.post("/api/ai/chat", async (req, res) => {
-    try {
-      const { message, history } = req.body;
-
-      if (!message || typeof message !== "string") {
-        return res.status(400).json({ error: "Message prompt is required." });
-      }
-
-      const ai = getGenAI();
-
-      // Format previous messages for chat history if provided
-      const contents: Array<{ role: string; parts: Array<{ text: string }> }> = [];
-
-      if (Array.isArray(history)) {
-        for (const item of history.slice(-8)) { // keep last 8 turns for context
-          if (item && item.role && item.text) {
-            contents.push({
-              role: item.role === "user" ? "user" : "model",
-              parts: [{ text: item.text }]
-            });
-          }
-        }
-      }
-
-      // Add the current user query
-      contents.push({
-        role: "user",
-        parts: [{ text: message }]
-      });
-
-      const response = await ai.models.generateContent({
-        model: "gemini-3.7-flash",
-        contents,
-        config: {
-          systemInstruction: SYSTEM_INSTRUCTION,
-          temperature: 0.7
-        }
-      });
-
-      const responseText = response.text || "I was unable to generate an answer. Please check your query or contact store management.";
-
-      return res.json({
-        reply: responseText
-      });
-    } catch (err: any) {
-      console.error("AI chat error:", err);
-      return res.status(500).json({
-        error: err?.message || "Internal server error occurred while processing AI request."
-      });
-    }
   });
 
   // Vite middleware for development

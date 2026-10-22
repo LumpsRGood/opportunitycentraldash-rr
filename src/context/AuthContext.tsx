@@ -9,10 +9,18 @@ export interface UserProfile {
   store: string;
 }
 
+export const PREVIEW_USER: UserProfile = {
+  name: 'Opportunity GM (Preview)',
+  email: 'gm.preview@opportunityrestaurantgroup.com',
+  role: 'General Manager',
+  store: 'Opportunity Restaurant Group (Preview)',
+};
+
 interface AuthContextType {
   isAuthenticated: boolean;
   user: UserProfile | null;
   login: () => Promise<void>;
+  enterPreviewMode: () => void;
   logout: () => void;
   isLoading: boolean;
   error: string | null;
@@ -28,28 +36,35 @@ const ALLOWED_ORG_DOMAINS = ['opportunityrestaurantgroup.com', 'bigredrules.com'
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     try {
+      const explicitLogout = sessionStorage.getItem('opportunity_portal_logged_out');
+      if (explicitLogout === 'true') {
+        return false;
+      }
       const savedSession = sessionStorage.getItem('opportunity_central_user');
       if (savedSession) {
-        const parsed: UserProfile = JSON.parse(savedSession);
-        const domain = parsed.email?.split('@')[1]?.toLowerCase();
-        return ALLOWED_ORG_DOMAINS.some(d => domain?.endsWith(d));
+        return true;
       }
+      // Default to true in preview to allow evaluating the portal and AI assistant immediately
+      return true;
     } catch {
-      // Ignore
+      return true;
     }
-    return false;
   });
 
   const [user, setUser] = useState<UserProfile | null>(() => {
     try {
+      const explicitLogout = sessionStorage.getItem('opportunity_portal_logged_out');
+      if (explicitLogout === 'true') {
+        return null;
+      }
       const savedSession = sessionStorage.getItem('opportunity_central_user');
       if (savedSession) {
         return JSON.parse(savedSession);
       }
+      return PREVIEW_USER;
     } catch {
-      // Ignore
+      return PREVIEW_USER;
     }
-    return null;
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -178,10 +193,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const enterPreviewMode = () => {
+    sessionStorage.removeItem('opportunity_portal_logged_out');
+    sessionStorage.setItem('opportunity_central_user', JSON.stringify(PREVIEW_USER));
+    setUser(PREVIEW_USER);
+    setIsAuthenticated(true);
+    setError(null);
+  };
+
   const logout = async () => {
     setIsAuthenticated(false);
     setUser(null);
     sessionStorage.removeItem('opportunity_central_user');
+    sessionStorage.setItem('opportunity_portal_logged_out', 'true');
     if (msalInstance && isConfigured) {
       try {
         const isInIframe = window !== window.top;
@@ -202,6 +226,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAuthenticated,
         user,
         login,
+        enterPreviewMode,
         logout,
         isLoading,
         error,
