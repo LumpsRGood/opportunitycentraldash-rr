@@ -800,6 +800,36 @@ export const MASTER_DOCUMENTS: DocumentItem[] = [
     department: 'Human Resources',
     keywords: ['empathy flyer', 'empathy', 'bereavement', 'grief support', 'lincoln financial', 'life insurance', 'group life', 'care manager', 'funeral planning', 'probate', 'estate guidance', 'closing accounts', 'beneficiary', 'eap'],
     sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:b:/p/gchadrick/IQBy37fSJqVxQI9ovxidrvgUAX-BJsDgXM86LzWqZ-elWLQ')
+  },
+
+  // 49. Injury and Illness Prevention Program (IIPP)
+  {
+    id: 'doc-iipp',
+    title: 'Injury and Illness Prevention Program',
+    description: 'Comprehensive workplace health and safety program outlining hazard identification, inspection schedules, injury prevention controls, team safety training, and incident corrective procedures.',
+    category: 'Safety & Compliance',
+    format: 'DOCX',
+    bandClass: 'emerald',
+    icon: ShieldAlert,
+    departments: ['Human Resources', 'Security Platform', 'Insurance & Incidents'],
+    department: 'Human Resources',
+    keywords: ['iipp', 'injury and illness prevention program', 'injury prevention', 'illness prevention', 'osha', 'workplace safety', 'hazard inspection', 'safety program', 'safety compliance'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQCMQSUQm9VJRZxrZSPWSPofAWNaM6kI0AIgQCs9LBwF65Y')
+  },
+
+  // 50. Workplace Violence Prevention Plan (WVPP)
+  {
+    id: 'sec-workplace-violence-plan',
+    title: 'Workplace Violence Prevention Plan',
+    description: 'Official prevention plan covering threat assessment, violent incident logging, reporting without retaliation, emergency response protocols, and team member safety training.',
+    category: 'Safety & Compliance',
+    format: 'DOCX',
+    bandClass: 'red',
+    icon: AlertTriangle,
+    departments: ['Security Platform', 'Human Resources'],
+    department: 'Security Platform',
+    keywords: ['wvpp', 'workplace violence', 'violence prevention plan', 'sb 553', 'threat assessment', 'violent incident log', 'safety plan', 'security', 'compliance'],
+    sharepointUrl: ensureWebViewerUrl('https://opportunityrestaurantgroup-my.sharepoint.com/:w:/p/gchadrick/IQBOdnGVNsFEToOqYyeSsNl2Aay1VZHiMxhnXUnlTdiECjU')
   }
 ];
 
